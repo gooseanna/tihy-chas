@@ -1,0 +1,1538 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d3429">
+<meta name="description" content="ÐŸÐ¾Ð¼Ð¾Ð´Ð¾Ñ€Ð¾-Ñ‚Ð°Ð¹Ð¼ÐµÑ€ Ñ Ð¿ÐµÐ¹Ð·Ð°Ð¶Ð°Ð¼Ð¸, Ñ€Ð°Ð´Ð¸Ð¾ Ð±ÐµÐ· ÑÐ»Ð¾Ð² Ð¸ Ð·Ð²ÑƒÐºÐ°Ð¼Ð¸ Ð¿Ñ€Ð¸Ñ€Ð¾Ð´Ñ‹">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; } img { max-width: 100%; }</style><title>Тихий час</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Onest:wght@400;500;600&display=swap&subset=cyrillic">
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #fffdf6;
+    --ink-soft: rgba(255, 253, 246, .74);
+    --glass: rgba(22, 40, 31, .34);
+    --glass-strong: rgba(20, 36, 29, .78);
+    --line: rgba(255, 255, 255, .22);
+    --chip: rgba(255, 255, 255, .12);
+    --accent: #f6cf8e;
+    --accent-break: #a9e0c8;
+    --accent-ink: #2a2418;
+    --track: rgba(255, 255, 255, .18);
+    --bg: #9fb8ab;
+    --shadow: 0 18px 50px rgba(10, 20, 15, .28);
+    --display: "Cormorant Garamond", "Cormorant", Georgia, "Times New Roman", serif;
+    --ui: "Onest", "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  body[data-scene="lake"] {
+    --glass: rgba(36, 30, 62, .32);
+    --glass-strong: rgba(34, 30, 58, .8);
+    --accent: #ffc6a3;
+    --accent-break: #a4dbe8;
+    --accent-ink: #2b1f22;
+    --bg: #5c5a82;
+    --shadow: 0 18px 50px rgba(20, 14, 40, .35);
+  }
+  body[data-scene="night"] {
+    color-scheme: dark;
+    --glass: rgba(10, 14, 38, .42);
+    --glass-strong: rgba(14, 18, 44, .86);
+    --line: rgba(200, 210, 255, .2);
+    --accent: #c7cdff;
+    --accent-break: #9fe3cf;
+    --accent-ink: #151a3a;
+    --bg: #0b1026;
+    --shadow: 0 18px 50px rgba(0, 0, 10, .5);
+  }
+  body[data-scene="sea"] {
+    --glass: rgba(20, 52, 72, .3);
+    --glass-strong: rgba(22, 48, 66, .84);
+    --accent: #ffd49a;
+    --accent-break: #a2e4e0;
+    --accent-ink: #2a2418;
+    --bg: #6f9fbd;
+    --shadow: 0 18px 50px rgba(10, 30, 45, .3);
+  }
+  body[data-scene="mountains"] {
+    --glass: rgba(30, 45, 66, .3);
+    --glass-strong: rgba(28, 42, 60, .84);
+    --accent: #ffd7a8;
+    --accent-break: #aae4cf;
+    --accent-ink: #2a2418;
+    --bg: #8fb3d9;
+    --shadow: 0 18px 50px rgba(15, 25, 40, .3);
+  }
+  body[data-scene="winter"] {
+    --glass: rgba(38, 54, 76, .32);
+    --glass-strong: rgba(34, 48, 68, .86);
+    --accent: #ffd9b0;
+    --accent-break: #b8e4ff;
+    --accent-ink: #2a2418;
+    --bg: #c9d6e0;
+    --shadow: 0 18px 50px rgba(20, 30, 45, .28);
+  }
+  body[data-scene="window"] {
+    color-scheme: dark;
+    --glass: rgba(12, 16, 26, .42);
+    --glass-strong: rgba(16, 20, 30, .9);
+    --line: rgba(255, 230, 200, .18);
+    --accent: #ffc98f;
+    --accent-break: #9fd4e8;
+    --accent-ink: #2a1d10;
+    --bg: #1b2130;
+    --shadow: 0 18px 50px rgba(0, 0, 0, .5);
+  }
+  body[data-scene="minimal"] {
+    --ink: #22302a;
+    --ink-soft: rgba(34, 48, 42, .66);
+    --glass: rgba(255, 255, 255, .46);
+    --glass-strong: rgba(250, 251, 248, .9);
+    --line: rgba(34, 48, 42, .14);
+    --chip: rgba(34, 48, 42, .06);
+    --accent: #5f8a72;
+    --accent-break: #b9855a;
+    --accent-ink: #ffffff;
+    --track: rgba(34, 48, 42, .1);
+    --bg: #ecefe8;
+    --shadow: 0 18px 50px rgba(60, 80, 70, .16);
+  }
+  body { --ring: var(--accent); }
+  body[data-phase="short"], body[data-phase="long"] { --ring: var(--accent-break); }
+
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 15px/1.45 var(--ui);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+
+  .app {
+    position: relative; z-index: 1;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 12px;
+    padding-inline: 16px;
+    padding-block: 14px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+    border: 1px solid var(--line);
+  }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  button:focus-visible, input:focus-visible, .dial:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+
+  /* Top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .today {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 14px;
+  }
+  .today .lbl { text-transform: uppercase; letter-spacing: .12em; font-size: 11px; color: var(--ink-soft); }
+  .tdots { display: flex; gap: 4px; align-items: center; }
+  .tdot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .tdots .more { font-size: 12px; color: var(--ink-soft); margin-left: 2px; }
+  #todayText { font-variant-numeric: tabular-nums; }
+  .tools { display: flex; gap: 8px; }
+  .iconbtn {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center; padding: 0;
+  }
+  .iconbtn svg { width: 20px; height: 20px; }
+
+  /* Center */
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 0; }
+  .presets { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .chip {
+    border: 1px solid var(--line); background: var(--glass);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-radius: 999px; padding: 7px 15px; font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip[aria-pressed="true"] { background: var(--ring); color: var(--accent-ink); border-color: transparent; }
+  .chip:disabled { opacity: .45; cursor: default; }
+
+  .dial {
+    --size: min(62vmin, 440px, calc(100vh - 330px));
+    --size: min(62vmin, 440px, calc(100dvh - 330px));
+    width: max(var(--size), 220px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    user-select: none;
+  }
+  .dial svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dial .tick { stroke: var(--ink); opacity: .28; stroke-width: .6; stroke-linecap: round; }
+  .dial .tick.major { opacity: .55; stroke-width: 1; }
+  .dial .track { fill: none; stroke: var(--track); stroke-width: 2.4; }
+  .dial .prog { fill: none; stroke: var(--ring); stroke-width: 2.4; stroke-linecap: round; transition: stroke-dashoffset .3s linear, stroke .6s; }
+  .dial .knob { fill: var(--ring); filter: drop-shadow(0 0 3px var(--ring)); transition: fill .6s; }
+  .face {
+    position: absolute; inset: 18%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    text-align: center;
+  }
+  .phase { text-transform: uppercase; letter-spacing: .2em; font-size: clamp(10px, 1.9vmin, 13px); color: var(--ring); font-weight: 500; transition: color .6s; }
+  .time {
+    font-family: var(--display); font-weight: 300;
+    font-size: calc(max(var(--size), 220px) * .27);
+    line-height: 1; letter-spacing: -.01em;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .task {
+    width: 100%; box-sizing: border-box;
+    background: transparent; border: none; border-bottom: 1px dashed var(--line);
+    color: var(--ink); text-align: center;
+    font: 400 clamp(13px, 2.2vmin, 16px)/1.3 var(--ui);
+    padding: 6px 4px; margin-top: 6px;
+  }
+  .task::placeholder { color: var(--ink-soft); }
+  .task:focus { outline: none; border-bottom-color: var(--ring); }
+
+  .cycle { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+  .cdots { display: flex; gap: 8px; }
+  .cdot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink-soft); box-sizing: border-box; }
+  .cdot.done { background: var(--accent); border-color: var(--accent); }
+  .cdot.now { border-color: var(--accent); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 25%, transparent); } }
+
+  .controls { display: flex; align-items: center; gap: 22px; }
+  .ctrl { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; padding: 0; }
+  .ctrl svg { width: 20px; height: 20px; }
+  .main-btn {
+    height: 64px; min-width: 164px; padding: 0 26px 0 22px; border-radius: 999px;
+    border: 1px solid transparent;
+    background: var(--ring); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 17px; font-weight: 600; letter-spacing: .01em;
+    box-shadow: var(--shadow);
+    transition: background .35s, color .35s, transform .15s;
+  }
+  .main-btn:active { transform: scale(.95); }
+  .main-btn svg { width: 24px; height: 24px; flex: none; }
+  body.running .main-btn {
+    background: var(--glass-strong); color: var(--ink); border-color: var(--line);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
+  body.paused .time { animation: blink 1.6s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: .3; } }
+  body.running .knob { animation: glow 2s ease-in-out infinite; }
+  @keyframes glow { 50% { r: 5.2; } }
+
+  /* Player */
+  .player {
+    justify-self: center; width: 100%; max-width: 720px; box-sizing: border-box;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 22px;
+  }
+  .mplay {
+    height: 44px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid transparent;
+    background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; gap: 8px; flex: none;
+    font-size: 14px; font-weight: 600;
+    transition: background .35s, color .35s;
+  }
+  .mplay svg { width: 18px; height: 18px; flex: none; }
+  body.playing .mplay, body.loading .mplay { background: var(--chip); color: var(--ink); border-color: var(--line); }
+  body.loading .mplay svg { animation: blink 1s ease-in-out infinite; }
+  .live { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ff7a6b; margin-right: 7px; vertical-align: 1px; }
+  body.playing .live { animation: blink 1.4s ease-in-out infinite; }
+  .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--chip); border: 1px solid var(--line); gap: 2px; }
+  .seg button { border: none; background: transparent; border-radius: 999px; padding: 7px 16px; font-size: 14px; }
+  .seg button[aria-pressed="true"] { background: var(--ring); color: var(--accent-ink); font-weight: 500; }
+  .player .pbtn { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--chip); display: grid; place-items: center; flex: none; padding: 0; }
+  .player .pbtn svg { width: 18px; height: 18px; }
+  .now { flex: 1; min-width: 0; }
+  #mTitle { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mArtist { font-size: 13px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; margin-right: 6px; vertical-align: -1px; }
+  .eq i { width: 3px; background: var(--accent); border-radius: 1px; height: 30%; }
+  body.playing .eq i { animation: eq 1.1s ease-in-out infinite; }
+  .eq i:nth-child(2) { animation-delay: -.4s !important; }
+  .eq i:nth-child(3) { animation-delay: -.8s !important; }
+  @keyframes eq { 0%, 100% { height: 25%; } 50% { height: 100%; } }
+  .soundbtn { border: 1px solid var(--line); background: var(--chip); border-radius: 999px; padding: 10px 16px; flex: none; display: flex; align-items: center; gap: 8px; }
+  .soundbtn svg { width: 16px; height: 16px; }
+
+  /* Sheets */
+  .overlay {
+    position: fixed; inset: 0; z-index: 10;
+    background: rgba(8, 12, 10, .3);
+    display: grid; place-items: center;
+    padding: 16px;
+  }
+  .sheet {
+    width: min(480px, 100%); max-height: 86vh; max-height: 86dvh; overflow: auto;
+    box-sizing: border-box;
+    background: var(--glass-strong);
+    -webkit-backdrop-filter: blur(22px) saturate(1.2); backdrop-filter: blur(22px) saturate(1.2);
+    border: 1px solid var(--line); border-radius: 26px;
+    padding: 22px 22px 18px;
+    box-shadow: var(--shadow);
+  }
+  .sheet h2 { font: 400 30px/1.1 var(--display); margin: 0 0 14px; text-wrap: balance; }
+  .sheet h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink-soft); margin: 18px 0 10px; font-weight: 500; }
+  .sheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .close { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--chip); display: grid; place-items: center; padding: 0; flex: none; }
+  .close svg { width: 16px; height: 16px; }
+
+  .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; padding: 8px 0; }
+  .row + .row { border-top: 1px solid var(--line); }
+  .row label { font-size: 15px; }
+  .row output { font-variant-numeric: tabular-nums; color: var(--ink-soft); font-size: 14px; }
+  .row input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--ring); height: 28px; margin: 0; }
+  .switch { appearance: none; -webkit-appearance: none; width: 46px; height: 28px; border-radius: 999px; background: var(--track); position: relative; margin: 0; cursor: pointer; transition: background .2s; flex: none; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .2s; }
+  .switch:checked { background: var(--ring); }
+  .switch:checked::after { transform: translateX(18px); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .tracks button {
+    width: 100%; text-align: left; border: none; background: transparent;
+    padding: 8px 10px; border-radius: 12px;
+    display: grid; grid-template-columns: 1fr auto; gap: 0 10px;
+  }
+  .tracks button:hover { background: var(--chip); }
+  .tracks .t { font-size: 14px; }
+  .tracks .a { font-size: 12px; color: var(--ink-soft); grid-column: 1; }
+  .tracks .g { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-soft); }
+  .tracks button.cur .t { color: var(--ring); font-weight: 500; }
+  .credits { font-size: 12px; color: var(--ink-soft); margin: 16px 0 0; line-height: 1.5; }
+  .credits a { color: inherit; }
+
+  .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .sw.sea { background: linear-gradient(#9cc3dd, #f3d9c4 48%, #4f86a6 49%, #2e5f7c 78%, #e8d6b5 79%); }
+  .sw.mountains { background: linear-gradient(160deg, transparent 40%, #6f86a0 41%, #3f5a5f 75%), linear-gradient(#8fb3d9, #dfe9f1); }
+  .sw.winter { background: linear-gradient(#b9c8d6, #e6ecf1 55%, #2f4a45 56%, #f4f7fa 80%); }
+  .sw.window { background: radial-gradient(circle at 30% 40%, rgba(255,190,120,.7) 0 8px, transparent 14px), radial-gradient(circle at 70% 60%, rgba(140,190,255,.6) 0 6px, transparent 12px), linear-gradient(#1b2130, #2c3446); }
+
+  .addtask { display: flex; gap: 8px; }
+  .addtask input {
+    flex: 1; min-width: 0; box-sizing: border-box;
+    border: 1px solid var(--line); background: var(--chip); color: var(--ink);
+    border-radius: 14px; padding: 11px 14px; font: inherit;
+  }
+  .addtask input::placeholder { color: var(--ink-soft); }
+  .addtask button { border: none; border-radius: 14px; padding: 0 16px; background: var(--ring); color: var(--accent-ink); font-weight: 600; }
+  .todo { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; }
+  .todo li {
+    display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px;
+    padding: 8px 6px 8px 10px; border-radius: 14px; border: 1px solid transparent;
+  }
+  .todo li.cur { border-color: var(--ring); background: var(--chip); }
+  .todo .tick { appearance: none; -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--ink-soft); margin: 0; cursor: pointer; display: grid; place-items: center; }
+  .todo .tick:checked { background: var(--ring); border-color: var(--ring); }
+  .todo .tick:checked::after { content: ""; width: 10px; height: 5px; border: 2px solid var(--accent-ink); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  .todo .txt { overflow-wrap: anywhere; }
+  .todo li.done .txt { text-decoration: line-through; color: var(--ink-soft); }
+  .todo .pips { display: block; margin-top: 3px; font-size: 12px; color: var(--ink-soft); }
+  .todo .ibtn { width: 38px; height: 38px; border-radius: 50%; border: none; background: transparent; display: grid; place-items: center; padding: 0; color: var(--ink-soft); }
+  .todo .ibtn svg { width: 18px; height: 18px; }
+  .todo li.cur .ibtn.focus { color: var(--ring); }
+  .todo-empty { color: var(--ink-soft); font-size: 14px; padding: 10px 2px; }
+  .hint { font-size: 13px; color: var(--ink-soft); margin: 12px 0 0; }
+  .scene-card { border: 2px solid transparent; border-radius: 18px; padding: 0; overflow: hidden; background: var(--chip); text-align: left; }
+  .scene-card[aria-pressed="true"] { border-color: var(--ring); }
+  .scene-card .sw { height: 78px; }
+  .scene-card span { display: block; padding: 8px 12px 10px; font-size: 14px; }
+  .sw.forest { background: linear-gradient(#bcd3cf, #efdcc0 55%, #3b5a4a 56%, #1c3328); }
+  .sw.lake { background: linear-gradient(#27335a, #e9a38a 50%, #4c4870 51%, #252848); }
+  .sw.night { background: radial-gradient(circle at 75% 30%, #f2efe0 0 6px, transparent 7px), linear-gradient(#070b1f, #34386a 62%, #0a0e24 63%); }
+  .sw.minimal { background: linear-gradient(120deg, #c5d6c6, #eadcc8 50%, #c8dae2); }
+
+  .danger { margin-top: 14px; border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 9px 16px; font-size: 14px; color: var(--ink-soft); }
+
+  .toast {
+    position: fixed; left: 50%; top: 18px; transform: translateX(-50%);
+    z-index: 20; padding: 10px 18px; border-radius: 999px;
+    background: var(--glass-strong); border: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    font-size: 14px; box-shadow: var(--shadow);
+    max-width: calc(100% - 32px); box-sizing: border-box; text-align: center;
+  }
+
+  .toast.update { top: auto; bottom: 96px; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 18px; }
+  .toast.update button { border: none; border-radius: 999px; padding: 8px 14px; background: var(--ring); color: var(--accent-ink); font-weight: 600; font-size: 14px; }
+
+  @media (max-width: 560px) {
+    .soundbtn span, .mplay span { display: none; }
+    .mplay { padding: 0 12px; }
+    .main-btn { min-width: 140px; }
+    .soundbtn { padding: 10px 12px; }
+    .controls { gap: 16px; }
+    .today { padding: 8px 12px; }
+  }
+  @media (max-height: 640px) and (orientation: landscape) {
+    .dial { --size: min(62vmin, 440px, calc(100dvh - 250px)); }
+    .presets { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<div class="app">
+  <header class="top">
+    <div class="today glass" aria-live="polite">
+      <span class="lbl">Сегодня</span>
+      <span class="tdots" id="todayDots"></span>
+      <span id="todayText">пока ни одной сессии</span>
+    </div>
+    <div class="tools">
+      <button class="iconbtn glass" id="btnTasks" aria-label="Задачи на сегодня" title="Задачи">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5l1.6 1.6L8.5 5M4 12.5l1.6 1.6 2.9-3.1M4 18.5l1.6 1.6 2.9-3.1M12 7h8M12 13h8M12 19h8"/></svg>
+      </button>
+      <button class="iconbtn glass" id="btnScene" aria-label="Сменить пейзаж" title="Пейзаж">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l6-9 4 6 3-4 5 7z"/><circle cx="17" cy="6" r="2"/></svg>
+      </button>
+      <button class="iconbtn glass" id="btnSettings" aria-label="Настройки таймера" title="Настройки">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+      </button>
+      <button class="iconbtn glass" id="btnFull" aria-label="Во весь экран" title="Во весь экран">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="center">
+    <div class="presets" id="presets" role="group" aria-label="Длительность фокуса и перерыва"></div>
+
+    <div class="dial glass" id="dial" role="button" tabindex="0" aria-label="Запустить или поставить на паузу">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <g id="ticks"></g>
+        <circle class="track" cx="100" cy="100" r="84"/>
+        <circle class="prog" id="prog" cx="100" cy="100" r="84" transform="rotate(-90 100 100)"/>
+        <circle class="knob" id="knob" r="3.6" cx="100" cy="16"/>
+      </svg>
+      <div class="face">
+        <div class="phase" id="phaseLbl">Фокус</div>
+        <div class="time" id="time">25:00</div>
+        <input class="task" id="task" type="text" maxlength="48" placeholder="Чем займёшься?" autocomplete="off" aria-label="Задача на эту сессию">
+      </div>
+    </div>
+
+    <div class="cycle">
+      <div class="cdots" id="cdots"></div>
+      <div id="cycleText">Сессия 1 из 4</div>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl glass" id="btnReset" aria-label="Начать фазу заново" title="Заново">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v4h4"/></svg>
+      </button>
+      <button class="main-btn" id="btnStart" aria-label="Старт">
+        <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.2-6.5a1 1 0 0 0 0-1.7L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>
+        <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" hidden><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>
+        <span id="startLbl">Старт</span>
+      </button>
+      <button class="ctrl glass" id="btnSkip" aria-label="Перейти к следующей фазе" title="Дальше">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l9 7-9 7z"/><path d="M19 5v14"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <footer class="player glass">
+    <button class="mplay" id="mPlay" aria-label="Включить музыку">
+      <svg id="mIcoPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.2-6.5a1 1 0 0 0 0-1.7L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>
+      <svg id="mIcoPause" viewBox="0 0 24 24" fill="currentColor" hidden><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>
+      <span id="mPlayLbl">Слушать</span>
+    </button>
+    <div class="now">
+      <div id="mTitle"><span class="live" id="mLive" aria-hidden="true"></span><span class="eq" id="mEq" aria-hidden="true"><i></i><i></i><i></i></span><span id="mTitleText">Swiss Classic</span></div>
+      <div id="mArtist">Радио · классика без слов</div>
+    </div>
+    <button class="pbtn" id="mNext" aria-label="Следующая станция">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 6.2v11.6a1 1 0 0 0 1.5.8l8.3-5.8a1 1 0 0 0 0-1.6L6.5 5.4A1 1 0 0 0 5 6.2z"/><rect x="16.5" y="5" width="2.6" height="14" rx="1"/></svg>
+    </button>
+    <button class="soundbtn" id="btnSound" aria-label="Музыка и звуки природы">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+      <span>Звук</span>
+    </button>
+  </footer>
+</div>
+
+<!-- Scene picker -->
+<div class="overlay" id="scenePop" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sceneTitle">
+    <div class="sheet-head"><h2 id="sceneTitle">Где сегодня занимаемся?</h2><button class="close" data-close aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="scenes" id="sceneList">
+      <button class="scene-card" data-scene="forest"><div class="sw forest"></div><span>Лес на рассвете</span></button>
+      <button class="scene-card" data-scene="lake"><div class="sw lake"></div><span>Озеро вечером</span></button>
+      <button class="scene-card" data-scene="sea"><div class="sw sea"></div><span>Морской берег</span></button>
+      <button class="scene-card" data-scene="mountains"><div class="sw mountains"></div><span>Горы</span></button>
+      <button class="scene-card" data-scene="winter"><div class="sw winter"></div><span>Зимний лес</span></button>
+      <button class="scene-card" data-scene="window"><div class="sw window"></div><span>Дождь за окном</span></button>
+      <button class="scene-card" data-scene="night"><div class="sw night"></div><span>Звёздная ночь</span></button>
+      <button class="scene-card" data-scene="minimal"><div class="sw minimal"></div><span>Тишина</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Tasks -->
+<div class="overlay" id="tasksPop" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="tasksTitle">
+    <div class="sheet-head"><h2 id="tasksTitle">Задачи на сегодня</h2><button class="close" data-close aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <form class="addtask" id="addTask">
+      <input id="newTask" type="text" maxlength="60" placeholder="Например: конспект по истории" autocomplete="off" aria-label="Новая задача">
+      <button type="submit">Добавить</button>
+    </form>
+    <ul class="todo" id="todoList"></ul>
+    <p class="hint">Мишень ставит задачу в круг. Каждая завершённая сессия добавляет ей помидорку.</p>
+    <button class="danger" id="btnClearDone">Убрать выполненные</button>
+  </div>
+</div>
+
+<!-- Timer settings -->
+<div class="overlay" id="settingsPop" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="sheet-head"><h2 id="setTitle">Настройки таймера</h2><button class="close" data-close aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <h3>Длительность</h3>
+    <div class="row"><label for="sFocus">Фокус</label><output id="oFocus"></output><input type="range" id="sFocus" min="5" max="120" step="5"></div>
+    <div class="row"><label for="sShort">Короткий перерыв</label><output id="oShort"></output><input type="range" id="sShort" min="1" max="30" step="1"></div>
+    <div class="row"><label for="sLong">Длинный перерыв</label><output id="oLong"></output><input type="range" id="sLong" min="5" max="45" step="5"></div>
+    <div class="row"><label for="sCycle">Длинный перерыв после</label><output id="oCycle"></output><input type="range" id="sCycle" min="2" max="8" step="1"></div>
+    <h3>Поведение</h3>
+    <div class="row"><label for="tAutoBreak">Сразу начинать перерыв</label><input type="checkbox" class="switch" id="tAutoBreak"></div>
+    <div class="row"><label for="tAutoFocus">Сразу начинать следующий фокус</label><input type="checkbox" class="switch" id="tAutoFocus"></div>
+    <div class="row"><label for="tMusicWith">Музыка включается вместе с таймером</label><input type="checkbox" class="switch" id="tMusicWith"></div>
+    <div class="row"><label for="tBreakPause">На перерыве музыка отдыхает</label><input type="checkbox" class="switch" id="tBreakPause"></div>
+    <div class="row"><label for="tBell">Мягкий колокольчик в конце</label><input type="checkbox" class="switch" id="tBell"></div>
+    <div class="row"><label for="tWake">Экран не гаснет, пока идёт таймер</label><input type="checkbox" class="switch" id="tWake"></div>
+    <button class="danger" id="btnTestBell">Послушать звонок</button>
+    <button class="danger" id="btnClearToday">Обнулить счётчик за сегодня</button>
+  </div>
+</div>
+
+<!-- Sound -->
+<div class="overlay" id="soundPop" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sndTitle">
+    <div class="sheet-head"><h2 id="sndTitle">Музыка и природа</h2><button class="close" data-close aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="seg" id="sourceSeg" role="group" aria-label="Источник музыки">
+      <button data-src="radio">Радио</button>
+      <button data-src="tracks">Мои треки</button>
+    </div>
+    <div id="radioBox">
+      <h3>Станции без слов</h3>
+      <ul class="tracks" id="stationList"></ul>
+    </div>
+    <div id="tracksBox">
+      <h3>Мои треки, по кругу</h3>
+      <ul class="tracks" id="trackList"></ul>
+    </div>
+    <div class="row"><label for="sMusicVol">Громкость музыки</label><output id="oMusicVol"></output><input type="range" id="sMusicVol" min="0" max="100" step="1"></div>
+    <h3>Звуки природы поверх музыки</h3>
+    <div class="row"><label for="tRain">Дождь в лесу</label><input type="checkbox" class="switch" id="tRain"></div>
+    <div class="row"><label for="tBirds">Птицы и лёгкий дождь</label><input type="checkbox" class="switch" id="tBirds"></div>
+    <div class="row"><label for="sNatVol">Громкость природы</label><output id="oNatVol"></output><input type="range" id="sNatVol" min="0" max="100" step="1"></div>
+    <p class="credits">
+      Радио: <a href="https://www.radioswissclassic.ch" target="_blank" rel="noopener">Radio Swiss Classic</a>, <a href="https://www.radioswissjazz.ch" target="_blank" rel="noopener">Radio Swiss Jazz</a>, <a href="https://laut.fm/lofi" target="_blank" rel="noopener">laut.fm/lofi</a>, <a href="https://somafm.com" target="_blank" rel="noopener">SomaFM</a>.
+      Треки: Дебюсси и Сати в общественном достоянии; Chill Elevator: Antti Luode, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.
+      Звуки природы: Robert EA Harvey, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Треки и звуки с <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>.
+    </p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="toast update" id="updateBar" role="status" hidden>
+  <span>Есть новая версия</span>
+  <button id="btnUpdate">Обновить</button>
+</div>
+
+<script>
+(() => {
+  /* ---------- data ---------- */
+  const STATIONS = [
+    { id: 'classic', t: 'Swiss Classic', a: 'классика без слов', url: 'https://stream.srg-ssr.ch/srgssr/rsc_de/mp3/128' },
+    { id: 'jazz', t: 'Swiss Jazz', a: 'спокойный джаз', url: 'https://stream.srg-ssr.ch/srgssr/rsj/mp3/128' },
+    { id: 'lofi', t: 'Lo-fi радио', a: 'лоу-фай биты', url: 'https://stream.laut.fm/lofi' },
+    { id: 'fluid', t: 'SomaFM Fluid', a: 'инструментальный хип-хоп', url: 'https://ice2.somafm.com/fluid-128-mp3' },
+    { id: 'drone', t: 'SomaFM Drone Zone', a: 'эмбиент, почти тишина', url: 'https://ice2.somafm.com/dronezone-128-mp3' },
+  ];
+  const TRACKS = [
+    { f: 'classic-debussy-clair-de-lune', t: 'Лунный свет', a: 'Клод Дебюсси' },
+    { f: 'classic-satie-gymnopedie', t: 'Гимнопедия № 1', a: 'Эрик Сати' },
+    { f: 'lofi-chill-elevator', t: 'Chill Elevator', a: 'Antti Luode' },
+  ];
+  const PRESETS = [
+    { focus: 25, short: 5, long: 15 },
+    { focus: 50, short: 10, long: 20 },
+    { focus: 90, short: 20, long: 30 },
+  ];
+  const PHASE_LBL = { focus: 'Фокус', short: 'Короткий перерыв', long: 'Длинный перерыв' };
+
+  /* ---------- storage ---------- */
+  const KEY = 'tihiy-chas.v1';
+  const DEFAULTS = {
+    focus: 25, short: 5, long: 15, cycle: 4,
+    autoBreak: true, autoFocus: false, musicWith: true, breakPause: true, bell: true, wake: true,
+    scene: 'forest', source: 'radio', station: 'classic', musicVol: 60, natVol: 40, rain: false, birds: false,
+  };
+  let S = { ...DEFAULTS };
+  let stats = { date: todayKey(), sessions: 0, minutes: 0 };
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (raw && raw.settings) S = { ...DEFAULTS, ...raw.settings };
+    if (raw && raw.stats && raw.stats.date === todayKey()) stats = raw.stats;
+  } catch (e) {}
+  // nature loops need a tap to start, so they always begin switched off
+  S.rain = false; S.birds = false;
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ settings: S, stats })); } catch (e) {}
+  }
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  const $ = (id) => document.getElementById(id);
+  const plural = (n, f) => {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return f[0];
+    if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return f[1];
+    return f[2];
+  };
+  const fmtMin = (m) => m < 60 ? m + ' мин' : Math.floor(m / 60) + ' ч' + (m % 60 ? ' ' + (m % 60) + ' мин' : '');
+
+  let toastTimer;
+  function toast(msg) {
+    const el = $('toast'); el.textContent = msg; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3200);
+  }
+
+  /* ---------- timer ---------- */
+  const T = { phase: 'focus', running: false, endAt: 0, remaining: 0, total: 1, done: 0 };
+  const durOf = (p) => (p === 'focus' ? S.focus : p === 'short' ? S.short : S.long) * 60000;
+
+  const C = 2 * Math.PI * 84;
+  const prog = $('prog'), knob = $('knob');
+  prog.style.strokeDasharray = C;
+
+  // dial ticks: 60 minute marks, like a kitchen timer
+  (function ticks() {
+    const g = $('ticks'); let h = '';
+    for (let i = 0; i < 60; i++) {
+      const a = i / 60 * 2 * Math.PI, major = i % 5 === 0;
+      const r1 = major ? 91 : 92.5, r2 = 96;
+      h += `<line class="tick${major ? ' major' : ''}" x1="${100 + r1 * Math.sin(a)}" y1="${100 - r1 * Math.cos(a)}" x2="${100 + r2 * Math.sin(a)}" y2="${100 - r2 * Math.cos(a)}"/>`;
+    }
+    g.innerHTML = h;
+  })();
+
+  function fmt(ms) {
+    const s = Math.max(0, Math.ceil(ms / 1000));
+    return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }
+
+  function render() {
+    const rem = T.running ? T.endAt - Date.now() : T.remaining;
+    const frac = Math.max(0, Math.min(1, rem / T.total));
+    $('time').textContent = fmt(rem);
+    prog.style.strokeDashoffset = C * (1 - frac);
+    const a = frac * 2 * Math.PI;
+    knob.setAttribute('cx', 100 + 84 * Math.sin(a));
+    knob.setAttribute('cy', 100 - 84 * Math.cos(a));
+    document.title = T.running ? fmt(rem) + ' · ' + PHASE_LBL[T.phase] : 'Тихий час';
+  }
+
+  function renderStatic() {
+    const paused = !T.running && T.remaining < T.total;
+    document.body.dataset.phase = T.phase;
+    document.body.classList.toggle('running', T.running);
+    document.body.classList.toggle('paused', paused);
+    $('phaseLbl').textContent = paused ? 'На паузе' : PHASE_LBL[T.phase];
+    $('icoPlay').hidden = T.running; $('icoPause').hidden = !T.running;
+    $('startLbl').textContent = T.running ? 'Пауза' : paused ? 'Продолжить' : 'Старт';
+    $('btnStart').setAttribute('aria-label', $('startLbl').textContent);
+    let h = '';
+    for (let i = 0; i < S.cycle; i++) {
+      const cls = i < T.done ? 'done' : (i === T.done && T.phase === 'focus' ? 'now' : '');
+      h += `<span class="cdot ${cls}"></span>`;
+    }
+    $('cdots').innerHTML = h;
+    $('cycleText').textContent = T.phase === 'long' ? 'Цикл завершён, отдыхай' : T.phase === 'short' ? `Позади ${T.done} из ${S.cycle}` : `Сессия ${T.done + 1} из ${S.cycle}`;
+    const custom = !PRESETS.some(p => p.focus === S.focus && p.short === S.short);
+    $('presets').innerHTML = PRESETS.map((p, i) => `<button class="chip" data-p="${i}" aria-pressed="${p.focus === S.focus && p.short === S.short}" ${T.running ? 'disabled' : ''}>${p.focus} / ${p.short}</button>`).join('') +
+      `<button class="chip" data-p="custom" aria-pressed="${custom}" ${T.running ? 'disabled' : ''}>${custom ? S.focus + ' / ' + S.short : 'Своё время'}</button>`;
+    renderToday();
+    render();
+  }
+  function renderToday() {
+    const n = stats.sessions;
+    let d = '';
+    for (let i = 0; i < Math.min(n, 8); i++) d += '<span class="tdot"></span>';
+    if (n > 8) d += `<span class="more">+${n - 8}</span>`;
+    $('todayDots').innerHTML = d;
+    let txt = n ? `${n} ${plural(n, ['сессия', 'сессии', 'сессий'])} · ${fmtMin(stats.minutes)}` : 'пока ни одной сессии';
+    const total = todo.items.length;
+    if (total) txt += ` · задачи ${todo.items.filter(t => t.done).length}/${total}`;
+    $('todayText').textContent = txt;
+  }
+
+  let tickId = null;
+  function start() {
+    unlockAudio();
+    T.endAt = Date.now() + T.remaining;
+    T.running = true;
+    clearInterval(tickId); tickId = setInterval(tick, 250);
+    keepAwake(true);
+    if (S.musicWith && (T.phase === 'focus' || !S.breakPause)) music.play();
+    renderStatic();
+  }
+  function pause() {
+    T.remaining = Math.max(0, T.endAt - Date.now());
+    T.running = false;
+    clearInterval(tickId);
+    keepAwake(false);
+    if (S.musicWith) music.pause();
+    renderStatic();
+  }
+  function tick() {
+    if (T.endAt - Date.now() <= 0) complete(); else render();
+  }
+  function setPhase(p) {
+    T.phase = p; T.total = durOf(p); T.remaining = T.total;
+  }
+  function nextPhase(counted) {
+    if (T.phase === 'focus') {
+      if (counted) {
+        if (stats.date !== todayKey()) stats = { date: todayKey(), sessions: 0, minutes: 0 };
+        stats.sessions++; stats.minutes += Math.round(T.total / 60000); save();
+        creditTask();
+      }
+      T.done++;
+      setPhase(T.done >= S.cycle ? 'long' : 'short');
+    } else {
+      if (T.phase === 'long') T.done = 0;
+      setPhase('focus');
+    }
+  }
+  function complete() {
+    clearInterval(tickId);
+    T.running = false;
+    const wasFocus = T.phase === 'focus';
+    nextPhase(true);
+    if (S.bell) bell(wasFocus);
+    toast(wasFocus ? 'Сессия завершена. Время отдохнуть' : 'Перерыв закончился. Возвращаемся?');
+    if (T.phase !== 'focus' && S.breakPause) music.pause(2500);
+    const auto = T.phase === 'focus' ? S.autoFocus : S.autoBreak;
+    if (auto) start();
+    else {
+      keepAwake(false);
+      if (T.phase === 'focus' && S.musicWith && !S.breakPause) music.pause();
+      renderStatic();
+    }
+  }
+  function toggle() { T.running ? pause() : start(); }
+
+  $('btnStart').addEventListener('click', toggle);
+  $('dial').addEventListener('click', (e) => { if (e.target.id !== 'task') toggle(); });
+  $('dial').addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && e.target.id !== 'task') { e.preventDefault(); toggle(); } });
+  $('btnReset').addEventListener('click', () => {
+    if (T.running) pause();
+    T.remaining = T.total = durOf(T.phase);
+    renderStatic();
+  });
+  $('btnSkip').addEventListener('click', () => {
+    const was = T.running;
+    if (was) { clearInterval(tickId); T.running = false; }
+    nextPhase(false);
+    if (T.phase !== 'focus' && S.breakPause) music.pause();
+    if (was) start(); else { keepAwake(false); renderStatic(); }
+  });
+  $('presets').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-p]'); if (!b || b.disabled) return;
+    if (b.dataset.p === 'custom') { openSheet('settingsPop'); return; }
+    const p = PRESETS[+b.dataset.p];
+    S.focus = p.focus; S.short = p.short; S.long = p.long; save();
+    T.remaining = T.total = durOf(T.phase);
+    renderStatic(); syncSettingsUI();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === ' ' && document.activeElement === document.body) { e.preventDefault(); toggle(); }
+    if (e.key === 'Escape') closeSheets();
+  });
+  /* ---------- tasks ---------- */
+  let todo = { items: [], cur: null };
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY + '.todo') || 'null');
+    if (raw && Array.isArray(raw.items)) todo = raw;
+    else {
+      const old = localStorage.getItem(KEY + '.task');
+      if (old) { const id = Date.now().toString(36); todo = { items: [{ id, text: old, done: false, n: 0 }], cur: id }; }
+    }
+  } catch (e) {}
+  const saveTodo = () => { try { localStorage.setItem(KEY + '.todo', JSON.stringify(todo)); } catch (e) {} };
+  const curTask = () => todo.items.find(t => t.id === todo.cur && !t.done) || null;
+  const esc = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function addTask(text, makeCurrent) {
+    const t = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), text, done: false, n: 0 };
+    todo.items.push(t);
+    if (makeCurrent || !curTask()) todo.cur = t.id;
+    saveTodo(); renderTodo();
+  }
+  function renderTodo() {
+    const ct = curTask();
+    if (document.activeElement !== $('task')) $('task').value = ct ? ct.text : '';
+    const list = $('todoList');
+    if (!todo.items.length) { list.innerHTML = '<li class="todo-empty">Пока пусто. Добавь первую задачу.</li>'; }
+    else list.innerHTML = todo.items.map(t => `
+      <li class="${t.done ? 'done' : ''} ${ct && ct.id === t.id ? 'cur' : ''}">
+        <input type="checkbox" class="tick" data-done="${t.id}" ${t.done ? 'checked' : ''} aria-label="Выполнено">
+        <span><span class="txt">${esc(t.text)}</span>${t.n ? `<span class="pips">${'●'.repeat(Math.min(t.n, 12))} ${t.n} ${plural(t.n, ['сессия', 'сессии', 'сессий'])}</span>` : ''}</span>
+        <button class="ibtn focus" data-focus="${t.id}" aria-label="Работать над этой задачей" title="В круг" ${t.done ? 'disabled' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg></button>
+        <button class="ibtn" data-del="${t.id}" aria-label="Удалить задачу" title="Удалить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </li>`).join('');
+    const done = todo.items.filter(t => t.done).length;
+    $('btnClearDone').hidden = !done;
+    renderToday();
+  }
+  $('addTask').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = $('newTask').value.trim(); if (!v) return;
+    addTask(v, false); $('newTask').value = ''; $('newTask').focus();
+  });
+  $('todoList').addEventListener('click', (e) => {
+    const f = e.target.closest('[data-focus]'), d = e.target.closest('[data-del]');
+    if (f) { todo.cur = f.dataset.focus; saveTodo(); renderTodo(); closeSheets(); toast('Задача в круге. Можно начинать'); }
+    if (d) { todo.items = todo.items.filter(t => t.id !== d.dataset.del); if (todo.cur === d.dataset.del) todo.cur = null; saveTodo(); renderTodo(); }
+  });
+  $('todoList').addEventListener('change', (e) => {
+    const c = e.target.closest('[data-done]'); if (!c) return;
+    const t = todo.items.find(x => x.id === c.dataset.done); if (!t) return;
+    t.done = c.checked;
+    if (t.done && todo.cur === t.id) {
+      const nx = todo.items.find(x => !x.done); todo.cur = nx ? nx.id : null;
+      toast('Готово! Отличная работа');
+    }
+    saveTodo(); renderTodo();
+  });
+  $('btnClearDone').addEventListener('click', () => { todo.items = todo.items.filter(t => !t.done); saveTodo(); renderTodo(); });
+  // typing in the ring renames the current task, or creates one
+  $('task').addEventListener('change', () => {
+    const v = $('task').value.trim(), ct = curTask();
+    if (!v) { todo.cur = null; saveTodo(); renderTodo(); return; }
+    if (ct) { ct.text = v; saveTodo(); renderTodo(); } else addTask(v, true);
+  });
+  $('task').addEventListener('keydown', (e) => { if (e.key === 'Enter') e.target.blur(); });
+  function creditTask() {
+    const ct = curTask(); if (ct) { ct.n = (ct.n || 0) + 1; saveTodo(); renderTodo(); }
+  }
+
+  /* ---------- wake lock ---------- */
+  let wl = null;
+  async function keepAwake(on) {
+    if (on && S.wake && 'wakeLock' in navigator) {
+      if (wl) return;
+      try { wl = await navigator.wakeLock.request('screen'); wl.addEventListener('release', () => { wl = null; }); } catch (e) {}
+    } else if (wl) { try { await wl.release(); } catch (e) {} wl = null; }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && T.running) { keepAwake(true); tick(); }
+  });
+
+  /* ---------- audio ---------- */
+  let ac = null;
+  function unlockAudio() {
+    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (ac && ac.state === 'suspended') ac.resume();
+  }
+  // singing-bowl chime, synthesized: four strikes going down = rest, going up = back to work
+  function bell(toBreak) {
+    unlockAudio(); if (!ac) return;
+    const notes = toBreak ? [659, 523, 440, 349] : [349, 440, 523, 659];
+    const gap = 2.2, ring = 9;
+    const hold = ((notes.length - 1) * gap + 5) * 1000;
+    music.duck(hold); rain.duck(hold); birds.duck(hold);
+    const comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -10; comp.ratio.value = 4;
+    comp.connect(ac.destination);
+    notes.forEach((f, s) => {
+      const t0 = ac.currentTime + .3 + s * gap;
+      const out = ac.createGain();
+      out.gain.setValueAtTime(0.0001, t0);
+      out.gain.exponentialRampToValueAtTime(0.9, t0 + 0.012);
+      out.gain.exponentialRampToValueAtTime(0.0001, t0 + ring);
+      out.connect(comp);
+      [[1, 1], [1.004, .7], [2.0, .25], [2.76, .35], [5.4, .1]].forEach(([r, a]) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = f * r; g.gain.value = a * .45;
+        o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + ring + .1);
+      });
+    });
+  }
+
+  function fader(el) {
+    let id = null;
+    return (target, ms, done) => {
+      clearInterval(id);
+      const from = el.volume, steps = Math.max(1, Math.round(ms / 40)); let i = 0;
+      id = setInterval(() => {
+        i++; el.volume = Math.max(0, Math.min(1, from + (target - from) * (i / steps)));
+        if (i >= steps) { clearInterval(id); done && done(); }
+      }, 40);
+    };
+  }
+
+  const music = (() => {
+    const el = new Audio(); el.preload = 'none';
+    const fade = fader(el);
+    let tIdx = 0, wanted = false, errors = 0, duckT = null, loadedTrack = null;
+    const vol = () => S.musicVol / 100;
+    const station = () => STATIONS.find(s => s.id === S.station) || STATIONS[0];
+    const isRadio = () => S.source === 'radio';
+
+    // 'off' | 'loading' | 'on': the button always shows what is happening right now
+    function ui(state) {
+      document.body.classList.toggle('playing', state === 'on');
+      document.body.classList.toggle('loading', state === 'loading');
+      const on = state !== 'off';
+      $('mIcoPlay').hidden = on; $('mIcoPause').hidden = !on;
+      $('mPlayLbl').textContent = state === 'loading' ? 'Подключаю…' : on ? 'Пауза' : 'Слушать';
+      $('mPlay').setAttribute('aria-label', on ? 'Поставить музыку на паузу' : 'Включить музыку');
+    }
+    function showNow() {
+      const radio = isRadio();
+      const it = radio ? station() : TRACKS[tIdx];
+      $('mLive').hidden = !radio; $('mEq').hidden = radio;
+      $('mTitleText').textContent = it.t;
+      $('mArtist').textContent = radio ? 'Радио · ' + it.a : it.a + ' · мои треки';
+      $('mNext').setAttribute('aria-label', radio ? 'Следующая станция' : 'Следующий трек');
+      document.querySelectorAll('#stationList button').forEach(b => b.classList.toggle('cur', radio && b.dataset.s === it.id));
+      document.querySelectorAll('#trackList button').forEach(b => b.classList.toggle('cur', !radio && b.dataset.f === it.f));
+      document.querySelectorAll('#sourceSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.src === S.source));
+      $('radioBox').hidden = !radio; $('tracksBox').hidden = radio;
+      if ('mediaSession' in navigator) {
+        try { navigator.mediaSession.metadata = new MediaMetadata({ title: it.t, artist: it.a, album: 'Тихий час' }); } catch (e) {}
+      }
+    }
+    function setSrc() {
+      if (isRadio()) { el.src = station().url; loadedTrack = null; return; }
+      const tr = TRACKS[tIdx];
+      if (loadedTrack !== tr) { el.src = '' + tr.f + '.mp3'; loadedTrack = tr; }
+    }
+    function start() {
+      setSrc(); el.volume = 0;
+      const p = el.play();
+      if (p && p.catch) p.catch((e) => { if (!e || e.name !== 'AbortError') fail(); });
+    }
+    function play() {
+      if (wanted && !el.paused) { fade(vol(), 800); return; }
+      wanted = true; ui('loading');
+      start();
+    }
+    function fail() {
+      if (!wanted) return;
+      if (isRadio() && ++errors <= 2) {
+        toast('Радио не подключилось, включаю мои треки');
+        S.source = 'tracks'; save(); showNow();
+        start();
+        return;
+      }
+      wanted = false; ui('off');
+      toast('Музыка не загрузилась. Проверь интернет');
+    }
+    function pause(ms = 900) {
+      wanted = false; ui('off');
+      fade(0, ms, () => {
+        if (wanted) return;
+        el.pause();
+        // a live stream is dropped on pause, so it resumes live instead of from a stale buffer
+        if (isRadio()) { el.removeAttribute('src'); el.load(); }
+      });
+    }
+    function restart() {
+      showNow();
+      if (wanted) { el.pause(); start(); ui('loading'); }
+      else if (isRadio()) { el.removeAttribute('src'); loadedTrack = null; }
+    }
+    function next() {
+      if (isRadio()) S.station = STATIONS[(STATIONS.indexOf(station()) + 1) % STATIONS.length].id;
+      else tIdx = (tIdx + 1) % TRACKS.length;
+      save(); restart();
+    }
+    function pickStation(id) { S.source = 'radio'; S.station = id; save(); wanted = true; restart(); }
+    function pickTrack(f) { S.source = 'tracks'; tIdx = TRACKS.findIndex(t => t.f === f); save(); wanted = true; restart(); }
+    function setSource(src) { if (S.source === src) return; S.source = src; save(); restart(); }
+    function duck(hold) {
+      if (!wanted) return;
+      clearTimeout(duckT); fade(vol() * .12, 500);
+      duckT = setTimeout(() => { if (wanted) fade(vol(), 3000); }, hold);
+    }
+    el.addEventListener('playing', () => { if (!wanted) return; errors = 0; ui('on'); fade(vol(), 1500); });
+    el.addEventListener('waiting', () => { if (wanted) ui('loading'); });
+    el.addEventListener('error', () => { if (el.getAttribute('src')) fail(); });
+    el.addEventListener('ended', () => {
+      if (!isRadio()) { tIdx = (tIdx + 1) % TRACKS.length; showNow(); }
+      if (wanted) start();
+    });
+    if ('mediaSession' in navigator) {
+      try {
+        navigator.mediaSession.setActionHandler('play', () => play());
+        navigator.mediaSession.setActionHandler('pause', () => pause());
+        navigator.mediaSession.setActionHandler('nexttrack', () => next());
+      } catch (e) {}
+    }
+    return {
+      play, pause, next, duck, showNow, pickStation, pickTrack, setSource,
+      toggle: () => wanted ? pause() : play(),
+      setVol: () => { if (wanted && !el.paused) el.volume = vol(); },
+    };
+  })();
+
+  function natureLoop(file, key) {
+    const el = new Audio('' + file + '.mp3'); el.loop = true; el.preload = 'none';
+    const fade = fader(el);
+    let duckT = null;
+    return {
+      apply() {
+        if (S[key]) {
+          if (el.paused) el.volume = 0;
+          el.play().then(() => fade(S.natVol / 100, 1500)).catch(() => {});
+        } else fade(0, 800, () => { if (!S[key]) el.pause(); });
+      },
+      setVol() { if (S[key] && !el.paused) el.volume = S.natVol / 100; },
+      duck(hold) {
+        if (!S[key] || el.paused) return;
+        clearTimeout(duckT); fade(S.natVol / 100 * .12, 500);
+        duckT = setTimeout(() => { if (S[key]) fade(S.natVol / 100, 3000); }, hold);
+      },
+    };
+  }
+  const rain = natureLoop('nature-rain', 'rain');
+  const birds = natureLoop('nature-birds', 'birds');
+
+  $('mPlay').addEventListener('click', () => { unlockAudio(); music.toggle(); });
+  $('mNext').addEventListener('click', () => music.next());
+
+  /* ---------- sheets ---------- */
+  function openSheet(id) { closeSheets(); $(id).hidden = false; const c = $(id).querySelector('[data-close]'); c && c.focus(); }
+  function closeSheets() { document.querySelectorAll('.overlay').forEach(o => o.hidden = true); }
+  document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', (e) => {
+    if (e.target === o || e.target.closest('[data-close]')) o.hidden = true;
+  }));
+  $('btnScene').addEventListener('click', () => openSheet('scenePop'));
+  $('btnTasks').addEventListener('click', () => { openSheet('tasksPop'); if (!todo.items.length) $('newTask').focus(); });
+  $('btnSettings').addEventListener('click', () => openSheet('settingsPop'));
+  $('btnSound').addEventListener('click', () => openSheet('soundPop'));
+
+  const fsBtn = $('btnFull');
+  if (!document.documentElement.requestFullscreen) fsBtn.hidden = true;
+  fsBtn.addEventListener('click', () => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else document.documentElement.requestFullscreen().catch(() => toast('Здесь полноэкранный режим недоступен'));
+  });
+
+  // settings
+  const ranges = [
+    ['sFocus', 'oFocus', 'focus', v => v + ' мин'],
+    ['sShort', 'oShort', 'short', v => v + ' мин'],
+    ['sLong', 'oLong', 'long', v => v + ' мин'],
+    ['sCycle', 'oCycle', 'cycle', v => v + ' ' + plural(v, ['сессии', 'сессий', 'сессий'])],
+    ['sMusicVol', 'oMusicVol', 'musicVol', v => v + '%'],
+    ['sNatVol', 'oNatVol', 'natVol', v => v + '%'],
+  ];
+  const toggles = [['tAutoBreak', 'autoBreak'], ['tAutoFocus', 'autoFocus'], ['tMusicWith', 'musicWith'], ['tBreakPause', 'breakPause'], ['tBell', 'bell'], ['tWake', 'wake'], ['tRain', 'rain'], ['tBirds', 'birds']];
+  function syncSettingsUI() {
+    ranges.forEach(([i, o, k, f]) => { $(i).value = S[k]; $(o).textContent = f(S[k]); });
+    toggles.forEach(([i, k]) => { $(i).checked = !!S[k]; });
+  }
+  ranges.forEach(([i, o, k, f]) => $(i).addEventListener('input', () => {
+    S[k] = +$(i).value; $(o).textContent = f(S[k]); save();
+    if (k === 'focus' || k === 'short' || k === 'long') {
+      if (T.phase === k && !T.running) T.remaining = T.total = durOf(k);
+      renderStatic();
+    }
+    if (k === 'cycle') { if (T.done >= S.cycle && T.phase === 'focus') T.done = 0; renderStatic(); }
+    if (k === 'musicVol') music.setVol();
+    if (k === 'natVol') { rain.setVol(); birds.setVol(); }
+  }));
+  toggles.forEach(([i, k]) => $(i).addEventListener('change', () => {
+    S[k] = $(i).checked; save();
+    if (k === 'rain') { unlockAudio(); rain.apply(); }
+    if (k === 'birds') { unlockAudio(); birds.apply(); }
+    if (k === 'wake') keepAwake(T.running);
+  }));
+  $('btnTestBell').addEventListener('click', () => bell(true));
+  let clearArmed = false;
+  $('btnClearToday').addEventListener('click', (e) => {
+    const b = e.currentTarget;
+    if (!clearArmed) {
+      clearArmed = true; b.textContent = 'Точно обнулить? Нажми ещё раз';
+      setTimeout(() => { clearArmed = false; b.textContent = 'Обнулить счётчик за сегодня'; }, 4000);
+      return;
+    }
+    stats = { date: todayKey(), sessions: 0, minutes: 0 }; save(); renderStatic();
+    clearArmed = false; b.textContent = 'Обнулить счётчик за сегодня'; toast('Счётчик обнулён');
+  });
+
+  // stations + tracks
+  $('stationList').innerHTML = STATIONS.map(s => `<li><button data-s="${s.id}"><span class="t">${s.t}</span><span class="a">${s.a}</span><span class="g">эфир</span></button></li>`).join('');
+  $('stationList').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (b) { unlockAudio(); music.pickStation(b.dataset.s); } });
+  $('trackList').innerHTML = TRACKS.map(t => `<li><button data-f="${t.f}"><span class="t">${t.t}</span><span class="a">${t.a}</span><span class="g">трек</span></button></li>`).join('');
+  $('trackList').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (b) { unlockAudio(); music.pickTrack(b.dataset.f); } });
+  $('sourceSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-src]'); if (b) music.setSource(b.dataset.src); });
+
+  // scenes
+  function renderSceneCards() {
+    document.querySelectorAll('.scene-card').forEach(c => c.setAttribute('aria-pressed', c.dataset.scene === S.scene));
+  }
+  $('sceneList').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-scene]'); if (!b) return;
+    S.scene = b.dataset.scene; save(); renderSceneCards(); scene.set(S.scene);
+  });
+
+  /* ---------- scenery ---------- */
+  const scene = (() => {
+    const cv = $('scene'), ctx = cv.getContext('2d');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, DPR = 1, name = '', L = {}, parts = [], shoot = null, last = 0;
+
+    const rng = (seed) => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    function layer() {
+      const c = document.createElement('canvas'); c.width = Math.ceil(W * DPR); c.height = Math.ceil(H * DPR);
+      const x = c.getContext('2d'); x.scale(DPR, DPR); return [c, x];
+    }
+    function ridgeFn(r, base, amp) {
+      const ph = [r() * 6.28, r() * 6.28, r() * 6.28], fr = 2 * Math.PI / (W * .9);
+      return (x) => base + amp * (Math.sin(x * fr + ph[0]) * .6 + Math.sin(x * fr * 2.3 + ph[1]) * .28 + Math.sin(x * fr * 5.1 + ph[2]) * .12);
+    }
+    function fillRidge(x, f, color, bottom = H) {
+      x.fillStyle = color; x.beginPath(); x.moveTo(0, bottom);
+      for (let px = 0; px <= W + 8; px += 8) x.lineTo(px, f(px));
+      x.lineTo(W, bottom); x.closePath(); x.fill();
+    }
+    function pine(x, cx, base, h, color) {
+      x.fillStyle = color; x.beginPath();
+      const w = h * .38, tiers = 4;
+      for (let i = 0; i < tiers; i++) {
+        const by = base - h * .1 - (h * .8) * (i / tiers) * .92;
+        const tw = w * (1 - i / tiers * .62);
+        const top = base - h * .1 - h * .8 * ((i + 1) / tiers) - h * .1;
+        x.moveTo(cx - tw / 2, by); x.lineTo(cx, top); x.lineTo(cx + tw / 2, by);
+      }
+      x.closePath(); x.fill();
+      x.fillRect(cx - h * .025, base - h * .14, h * .05, h * .16);
+    }
+    function forestRow(x, r, f, hMin, hMax, color, density) {
+      let px = -20;
+      while (px < W + 20) {
+        const h = hMin + r() * (hMax - hMin);
+        pine(x, px, f(px) + 2, h, color);
+        px += Math.max(4, h * density * (.5 + r()));
+      }
+    }
+    // jagged mountain skyline: alternating peaks and saddles, roughened between them
+    function peaksPts(r, base, amp, n) {
+      const key = [];
+      for (let i = 0; i <= n; i++) key.push([i / n * W + (r() - .5) * W / n * .5, base - amp * (i % 2 ? .25 + r() * .3 : .65 + r() * .35)]);
+      key[0][0] = -10; key[n][0] = W + 10;
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const [x1, y1] = key[i], [x2, y2] = key[i + 1];
+        for (let k = 0; k < 10; k++) { const u = k / 10; pts.push([x1 + (x2 - x1) * u, y1 + (y2 - y1) * u + (k ? (r() - .5) * amp * .06 : 0)]); }
+      }
+      pts.push(key[n]);
+      return pts;
+    }
+    function tracePts(x, pts) {
+      x.beginPath(); x.moveTo(-10, H); pts.forEach(p => x.lineTo(p[0], p[1])); x.lineTo(W + 10, H); x.closePath();
+    }
+    function fillPts(x, pts, color) { x.fillStyle = color; tracePts(x, pts); x.fill(); }
+    function snowcap(x, pts, line, color) {
+      x.save(); tracePts(x, pts); x.clip();
+      x.fillStyle = color; x.beginPath(); x.moveTo(-10, 0);
+      for (let px = -10; px <= W + 10; px += 12) x.lineTo(px, line + Math.sin(px * .05) * 6 + Math.sin(px * .013) * 14);
+      x.lineTo(W + 10, 0); x.closePath(); x.fill();
+      x.restore();
+    }
+    function blob(color, rad) {
+      const c = document.createElement('canvas'); c.width = c.height = rad * 2;
+      const x = c.getContext('2d'), g = x.createRadialGradient(rad, rad, 0, rad, rad, rad);
+      g.addColorStop(0, color); g.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = g; x.fillRect(0, 0, rad * 2, rad * 2); return c;
+    }
+
+    const builders = {
+      forest() {
+        const r = rng(7);
+        const [sky, s] = layer();
+        let g = s.createLinearGradient(0, 0, 0, H * .7);
+        g.addColorStop(0, '#b7cfcb'); g.addColorStop(.55, '#e8dcc6'); g.addColorStop(1, '#f5d6ad');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        g = s.createRadialGradient(W * .68, H * .44, 0, W * .68, H * .44, H * .55);
+        g.addColorStop(0, 'rgba(255,240,210,.95)'); g.addColorStop(.25, 'rgba(255,228,190,.45)'); g.addColorStop(1, 'rgba(255,228,190,0)');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        fillRidge(s, ridgeFn(r, H * .5, H * .07), '#b3c6bc');
+        const specs = [
+          { base: .6, amp: .03, h: [.07, .12], c: '#95ad9f', d: .34 },
+          { base: .7, amp: .035, h: [.11, .18], c: '#6a8878', d: .36 },
+          { base: .83, amp: .04, h: [.17, .27], c: '#3f5f4e', d: .4 },
+          { base: .98, amp: .03, h: [.3, .46], c: '#1d3429', d: .46 },
+        ];
+        L.rows = specs.map(sp => {
+          const [c, x] = layer(); const f = ridgeFn(r, H * sp.base, H * sp.amp);
+          fillRidge(x, f, sp.c); forestRow(x, r, f, H * sp.h[0], H * sp.h[1], sp.c, sp.d);
+          return { c, y: H * sp.base };
+        });
+        L.sky = sky; L.puff = blob('rgba(255,255,255,.55)', 256);
+        parts = Array.from({ length: 34 }, () => ({ x: r() * W, y: r() * H, v: 4 + r() * 10, s: 1 + r() * 2.2, p: r() * 6.28 }));
+      },
+      lake() {
+        const r = rng(11), hy = H * .6;
+        const [up, u] = layer();
+        let g = u.createLinearGradient(0, 0, 0, hy);
+        g.addColorStop(0, '#26315a'); g.addColorStop(.45, '#7e6a93'); g.addColorStop(.8, '#e39f8a'); g.addColorStop(1, '#f7cf9f');
+        u.fillStyle = g; u.fillRect(0, 0, W, hy);
+        g = u.createRadialGradient(W * .36, hy - H * .05, 0, W * .36, hy - H * .05, H * .35);
+        g.addColorStop(0, 'rgba(255,230,190,.9)'); g.addColorStop(1, 'rgba(255,230,190,0)');
+        u.fillStyle = g; u.fillRect(0, 0, W, hy);
+        u.fillStyle = '#ffe6bd'; u.beginPath(); u.arc(W * .36, hy - H * .05, H * .045, 0, 7); u.fill();
+        fillRidge(u, ridgeFn(r, hy - H * .13, H * .09), '#86729a', hy);
+        const nf = ridgeFn(r, hy - H * .035, H * .035);
+        fillRidge(u, nf, '#4d4872', hy);
+        let px = W * .62;
+        while (px < W + 20) { const h = H * (.05 + r() * .06); pine(u, px, Math.min(nf(px), hy) + 3, h, '#34315a'); px += Math.max(4, h * .3 * (.5 + r())); }
+        const rf = document.createElement('canvas');
+        rf.width = Math.ceil(W * DPR); rf.height = Math.ceil((H - hy) * DPR);
+        const rc = rf.getContext('2d'); rc.translate(0, rf.height); rc.scale(1, -1);
+        rc.drawImage(up, 0, (hy - (H - hy)) * DPR, W * DPR, (H - hy) * DPR, 0, 0, rf.width, rf.height);
+        const [tint, t] = layer();
+        g = t.createLinearGradient(0, hy, 0, H);
+        g.addColorStop(0, 'rgba(70,66,110,.35)'); g.addColorStop(1, 'rgba(24,26,56,.92)');
+        t.fillStyle = g; t.fillRect(0, hy, W, H - hy);
+        L = { up, refl: rf, tint, hy };
+        parts = Array.from({ length: 40 }, () => ({ x: W * .36 + (r() - .5) * W * .22 * (1 + r()), y: hy + 6 + r() * (H - hy) * .6, w: 6 + r() * 26, p: r() * 6.28 }));
+      },
+      night() {
+        const r = rng(3);
+        const [bg, b] = layer();
+        let g = b.createLinearGradient(0, 0, 0, H);
+        g.addColorStop(0, '#060a1d'); g.addColorStop(.6, '#18204a'); g.addColorStop(1, '#353a6c');
+        b.fillStyle = g; b.fillRect(0, 0, W, H);
+        for (let i = 0; i < W * H / 3500; i++) { b.fillStyle = `rgba(255,255,255,${.15 + r() * .5})`; b.fillRect(r() * W, r() * H * .8, 1.2, 1.2); }
+        const mx = W * .78, my = H * .2, mr = Math.max(18, H * .045);
+        g = b.createRadialGradient(mx, my, mr, mx, my, mr * 7);
+        g.addColorStop(0, 'rgba(230,228,255,.28)'); g.addColorStop(1, 'rgba(230,228,255,0)');
+        b.fillStyle = g; b.fillRect(0, 0, W, H);
+        b.fillStyle = '#f2efe0'; b.beginPath(); b.arc(mx, my, mr, 0, 7); b.fill();
+        b.fillStyle = 'rgba(200,196,180,.35)';
+        [[-.3, -.2, .22], [.25, .15, .16], [-.05, .35, .12]].forEach(([dx, dy, rr]) => { b.beginPath(); b.arc(mx + dx * mr, my + dy * mr, rr * mr, 0, 7); b.fill(); });
+        fillRidge(b, ridgeFn(r, H * .76, H * .06), '#1a2046');
+        const nf = ridgeFn(r, H * .88, H * .04);
+        fillRidge(b, nf, '#0b0f26');
+        forestRow(b, r, nf, H * .1, H * .2, '#0b0f26', .5);
+        L = { bg };
+        parts = Array.from({ length: 70 }, () => ({ x: r() * W, y: r() * H * .7, s: .8 + r() * 1.4, p: r() * 6.28, f: .5 + r() * 1.5 }));
+        L.flies = Array.from({ length: 16 }, () => ({ x: r() * W, y: H * (.8 + r() * .18), p: r() * 6.28 }));
+      },
+      sea() {
+        const r = rng(9), hy = H * .5, shore = H * .8;
+        const [bg, b] = layer();
+        let g = b.createLinearGradient(0, 0, 0, hy);
+        g.addColorStop(0, '#8fbad8'); g.addColorStop(.7, '#d9e2e6'); g.addColorStop(1, '#f5dcc4');
+        b.fillStyle = g; b.fillRect(0, 0, W, hy);
+        g = b.createRadialGradient(W * .7, hy - H * .06, 0, W * .7, hy - H * .06, H * .3);
+        g.addColorStop(0, 'rgba(255,244,220,.95)'); g.addColorStop(.15, 'rgba(255,236,200,.5)'); g.addColorStop(1, 'rgba(255,236,200,0)');
+        b.fillStyle = g; b.fillRect(0, 0, W, hy);
+        const isle = ridgeFn(r, hy - H * .015, H * .03);
+        b.fillStyle = '#86a0b0'; b.beginPath(); b.moveTo(0, hy);
+        for (let px = 0; px <= W * .34; px += 6) b.lineTo(px, Math.min(hy, isle(px) + Math.pow(px / (W * .34), 3) * H * .06));
+        b.lineTo(W * .34, hy); b.closePath(); b.fill();
+        g = b.createLinearGradient(0, hy, 0, H);
+        g.addColorStop(0, '#78a8c2'); g.addColorStop(.45, '#40799a'); g.addColorStop(1, '#2d6680');
+        b.fillStyle = g; b.fillRect(0, hy, W, H - hy);
+        b.save(); b.globalAlpha = .3; b.fillStyle = '#fff3da';
+        b.beginPath(); b.ellipse(W * .7, hy + (shore - hy) * .38, W * .045, (shore - hy) * .42, 0, 0, 7); b.fill(); b.restore();
+        L = { bg, hy, shore, puff: blob('rgba(255,255,255,.85)', 256) };
+        L.clouds = Array.from({ length: 5 }, () => ({ x: r(), y: H * (.06 + r() * .26), w: W * (.18 + r() * .22), v: 3 + r() * 5 }));
+        parts = Array.from({ length: 70 }, () => ({ x: W * (.45 + r() * .5), y: hy + 4 + r() * (shore - hy - 10), w: 4 + r() * 22, p: r() * 6.28 }));
+      },
+      mountains() {
+        const r = rng(21);
+        const [bg, b] = layer();
+        let g = b.createLinearGradient(0, 0, 0, H);
+        g.addColorStop(0, '#7fa6d1'); g.addColorStop(.55, '#d7e4ee'); g.addColorStop(1, '#eef2f0');
+        b.fillStyle = g; b.fillRect(0, 0, W, H);
+        g = b.createRadialGradient(W * .22, H * .18, 0, W * .22, H * .18, H * .5);
+        g.addColorStop(0, 'rgba(255,248,230,.8)'); g.addColorStop(1, 'rgba(255,248,230,0)');
+        b.fillStyle = g; b.fillRect(0, 0, W, H);
+        let p = peaksPts(r, H * .6, H * .38, 5);
+        fillPts(b, p, '#a9bccf'); snowcap(b, p, H * .38, 'rgba(250,252,255,.92)');
+        const [mid, m] = layer();
+        p = peaksPts(r, H * .74, H * .34, 7);
+        fillPts(m, p, '#6f86a0'); snowcap(m, p, H * .52, 'rgba(244,248,252,.94)');
+        const [near, n] = layer();
+        const f = ridgeFn(r, H * .85, H * .05); fillRidge(n, f, '#3f5a5f');
+        forestRow(n, r, f, H * .08, H * .15, '#2e474a', .4);
+        const f2 = ridgeFn(r, H * .99, H * .03); fillRidge(n, f2, '#1f3336');
+        forestRow(n, r, f2, H * .18, H * .3, '#1f3336', .5);
+        L = { bg, mid, near, puff: blob('rgba(255,255,255,.75)', 256) };
+        parts = Array.from({ length: 5 }, () => ({ x: r(), y: H * (.4 + r() * .22), w: W * (.25 + r() * .25), v: 4 + r() * 6 }));
+      },
+      winter() {
+        const r = rng(5);
+        const [sky, s] = layer();
+        let g = s.createLinearGradient(0, 0, 0, H);
+        g.addColorStop(0, '#aebfd0'); g.addColorStop(.5, '#dfe6ee'); g.addColorStop(1, '#f3f5f8');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        g = s.createRadialGradient(W * .3, H * .3, 0, W * .3, H * .3, H * .4);
+        g.addColorStop(0, 'rgba(255,245,230,.7)'); g.addColorStop(1, 'rgba(255,245,230,0)');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        fillRidge(s, ridgeFn(r, H * .52, H * .06), '#c3cfdb');
+        const specs = [
+          { base: .62, amp: .03, h: [.07, .12], c: '#8d9fae', d: .34 },
+          { base: .73, amp: .035, h: [.11, .18], c: '#5f7584', d: .38 },
+          { base: .86, amp: .04, h: [.18, .28], c: '#3c5456', d: .42 },
+          { base: 1.0, amp: .03, h: [.3, .46], c: '#243a3a', d: .5 },
+        ];
+        L.rows = specs.map((sp, i) => {
+          const [c, x] = layer(); const f = ridgeFn(r, H * sp.base, H * sp.amp);
+          let px = -20;
+          while (px < W + 20) {
+            const h = H * (sp.h[0] + r() * (sp.h[1] - sp.h[0])), y = f(px) + 2;
+            // white tree drawn slightly higher, dark tree on top: snow stays on the tier edges
+            pine(x, px, y - h * .035, h, '#f6f9fc');
+            pine(x, px, y, h, sp.c);
+            px += Math.max(4, h * sp.d * (.5 + r()));
+          }
+          fillRidge(x, f, i === 3 ? '#f4f7fa' : '#e3eaf1');
+          return { c };
+        });
+        L.sky = sky;
+        parts = Array.from({ length: 150 }, () => ({ x: r() * W, y: r() * H, v: 12 + r() * 30, s: .8 + r() * 2.2, p: r() * 6.28 }));
+      },
+      window() {
+        const r = rng(13);
+        const [bg, b] = layer();
+        let g = b.createLinearGradient(0, 0, 0, H);
+        g.addColorStop(0, '#1a2233'); g.addColorStop(.6, '#2a3246'); g.addColorStop(1, '#1c2230');
+        b.fillStyle = g; b.fillRect(0, 0, W, H);
+        const cols = ['255,190,120', '255,214,150', '140,190,255', '255,150,120', '200,220,255'];
+        for (let i = 0; i < 60; i++) {
+          const x = r() * W, y = H * (.25 + r() * .6), rad = 8 + r() * 46, c = cols[Math.floor(r() * cols.length)];
+          const gg = b.createRadialGradient(x, y, 0, x, y, rad);
+          gg.addColorStop(0, `rgba(${c},${.25 + r() * .35})`); gg.addColorStop(.7, `rgba(${c},.12)`); gg.addColorStop(1, `rgba(${c},0)`);
+          b.fillStyle = gg; b.beginPath(); b.arc(x, y, rad, 0, 7); b.fill();
+        }
+        b.fillStyle = 'rgba(200,210,230,.07)'; b.fillRect(0, 0, W, H);
+        for (let i = 0; i < W * H / 2500; i++) {
+          const x = r() * W, y = r() * H, rad = .6 + r() * 2.2;
+          b.fillStyle = 'rgba(0,0,0,.2)'; b.beginPath(); b.arc(x, y + rad * .3, rad, 0, 7); b.fill();
+          b.fillStyle = 'rgba(220,230,255,.35)'; b.beginPath(); b.arc(x - rad * .25, y - rad * .25, rad * .55, 0, 7); b.fill();
+        }
+        b.fillStyle = '#10141d';
+        b.fillRect(W * .64, 0, Math.max(10, W * .012), H);
+        b.fillRect(0, H * .94, W, H * .06);
+        L = { bg };
+        parts = Array.from({ length: 28 }, () => ({ x: r() * W, y: r() * H, v: 20 + r() * 70, s: 1.5 + r() * 2.2, p: r() * 6.28 }));
+      },
+      minimal() {
+        L = { blobs: [
+          { c: blob('rgba(190,212,194,.9)', 256), ax: .25, ay: .3, sp: .05, ph: 0 },
+          { c: blob('rgba(236,218,194,.9)', 256), ax: .75, ay: .65, sp: .04, ph: 2 },
+          { c: blob('rgba(196,216,226,.85)', 256), ax: .6, ay: .2, sp: .06, ph: 4 },
+          { c: blob('rgba(230,206,210,.6)', 256), ax: .2, ay: .8, sp: .035, ph: 1 },
+        ] };
+      },
+    };
+
+    function draw(now) {
+      const t = now / 1000;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.globalAlpha = 1;
+      if (name === 'forest') {
+        ctx.drawImage(L.sky, 0, 0, W, H);
+        L.rows.forEach((row, i) => {
+          ctx.drawImage(row.c, 0, 0, W, H);
+          if (i < 3) {
+            const a = .16 + .08 * Math.sin(t * .15 + i);
+            const g = ctx.createLinearGradient(0, row.y - H * .08, 0, row.y + H * .06);
+            g.addColorStop(0, 'rgba(250,244,232,0)'); g.addColorStop(.6, `rgba(250,244,232,${a})`); g.addColorStop(1, 'rgba(250,244,232,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, row.y - H * .08, W, H * .14);
+            for (let k = 0; k < 3; k++) {
+              const sw = W * .5, x = ((k * .37 + i * .21) * (W + sw) + t * (6 + i * 3)) % (W + sw) - sw * .5;
+              ctx.globalAlpha = .35; ctx.drawImage(L.puff, x - sw / 2, row.y - H * .06, sw, H * .1); ctx.globalAlpha = 1;
+            }
+          }
+        });
+        ctx.fillStyle = 'rgba(255,236,190,.8)';
+        parts.forEach(p => {
+          const y = ((p.y - t * p.v) % H + H) % H, x = p.x + Math.sin(t * .4 + p.p) * 14;
+          ctx.globalAlpha = .35 + .35 * Math.sin(t + p.p);
+          ctx.beginPath(); ctx.arc(x, y, p.s, 0, 7); ctx.fill();
+        });
+      } else if (name === 'lake') {
+        const hy = L.hy, rh = H - hy, step = 3;
+        ctx.drawImage(L.up, 0, 0, W, H);
+        for (let y = 0; y < rh; y += step) {
+          const off = Math.sin(t * 1.1 + y * .11) * (.6 + y * .03);
+          ctx.drawImage(L.refl, 0, y * DPR, L.refl.width, step * DPR, off, hy + y, W, step);
+        }
+        ctx.drawImage(L.tint, 0, 0, W, H);
+        ctx.fillStyle = '#ffe2b8';
+        parts.forEach(p => {
+          const a = Math.max(0, Math.sin(t * 1.3 + p.p)) * .55;
+          if (a < .02) return;
+          ctx.globalAlpha = a * (1 - (p.y - hy) / rh);
+          ctx.fillRect(p.x + Math.sin(t * .5 + p.p) * 6, p.y, p.w * (.5 + (p.y - hy) / rh), 1.4);
+        });
+      } else if (name === 'night') {
+        ctx.drawImage(L.bg, 0, 0, W, H);
+        ctx.fillStyle = '#fff';
+        parts.forEach(p => {
+          ctx.globalAlpha = .25 + .6 * (.5 + .5 * Math.sin(t * p.f + p.p));
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, 7); ctx.fill();
+        });
+        if (!shoot && !reduce && Math.random() < .002) shoot = { x: Math.random() * W * .6, y: Math.random() * H * .3, t };
+        if (shoot) {
+          const k = (t - shoot.t) / .9;
+          if (k > 1) shoot = null;
+          else {
+            const x = shoot.x + k * W * .25, y = shoot.y + k * H * .12;
+            const g = ctx.createLinearGradient(x - 90, y - 43, x, y);
+            g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, `rgba(255,255,255,${.9 * (1 - k)})`);
+            ctx.globalAlpha = 1; ctx.strokeStyle = g; ctx.lineWidth = 1.6;
+            ctx.beginPath(); ctx.moveTo(x - 90, y - 43); ctx.lineTo(x, y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = '#e8f7a6';
+        L.flies.forEach(f => {
+          ctx.globalAlpha = Math.max(0, Math.sin(t * .8 + f.p)) * .8;
+          ctx.beginPath(); ctx.arc(f.x + Math.sin(t * .3 + f.p) * 30, f.y + Math.cos(t * .25 + f.p) * 12, 1.8, 0, 7); ctx.fill();
+        });
+      } else if (name === 'sea') {
+        const hy = L.hy;
+        ctx.drawImage(L.bg, 0, 0, W, H);
+        L.clouds.forEach(c => {
+          const x = ((c.x * (W + c.w) + t * c.v) % (W + c.w)) - c.w;
+          ctx.globalAlpha = .75; ctx.drawImage(L.puff, x, c.y, c.w, c.w * .24);
+        });
+        ctx.fillStyle = '#fff';
+        parts.forEach(p => {
+          const a = Math.max(0, Math.sin(t * 1.5 + p.p)) * .6 * (.5 + .5 * (p.y - hy) / (L.shore - hy));
+          if (a < .02) return;
+          ctx.globalAlpha = a;
+          ctx.fillRect(p.x + Math.sin(t * .4 + p.p) * 10, p.y, p.w, 1.3);
+        });
+        ctx.globalAlpha = 1;
+        const wash = Math.sin(t * .45) * H * .025;
+        const edge = (x) => L.shore + wash + Math.sin(x * .012 + t * .8) * 5 + Math.sin(x * .031 - t * .5) * 3;
+        const band = (off, color) => {
+          ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, H);
+          for (let px = 0; px <= W + 12; px += 12) ctx.lineTo(px, edge(px) + off);
+          ctx.lineTo(W, H); ctx.closePath(); ctx.fill();
+        };
+        band(-5, 'rgba(255,255,255,.8)');
+        band(4, '#c9b28c');
+        band(18 + wash * .4, '#e9d7b4');
+      } else if (name === 'mountains') {
+        ctx.drawImage(L.bg, 0, 0, W, H);
+        parts.forEach(c => {
+          const x = ((c.x * (W + c.w) + t * c.v) % (W + c.w)) - c.w;
+          ctx.globalAlpha = .55; ctx.drawImage(L.puff, x, c.y, c.w, c.w * .22);
+        });
+        ctx.globalAlpha = 1;
+        ctx.drawImage(L.mid, 0, 0, W, H);
+        ctx.drawImage(L.near, 0, 0, W, H);
+      } else if (name === 'winter') {
+        ctx.drawImage(L.sky, 0, 0, W, H);
+        L.rows.forEach(row => ctx.drawImage(row.c, 0, 0, W, H));
+        ctx.fillStyle = '#fff';
+        parts.forEach(p => {
+          const y = (p.y + t * p.v) % (H + 10) - 5;
+          const x = ((p.x + Math.sin(t * .6 + p.p) * 18 + t * 5) % W + W) % W;
+          ctx.globalAlpha = .45 + p.s * .15;
+          ctx.beginPath(); ctx.arc(x, y, p.s, 0, 7); ctx.fill();
+        });
+      } else if (name === 'window') {
+        ctx.drawImage(L.bg, 0, 0, W, H);
+        parts.forEach(p => {
+          const y = (p.y + t * p.v) % (H + 80) - 40, x = p.x + Math.sin(t * .7 + p.p) * 1.5;
+          const g = ctx.createLinearGradient(x, y - p.v * .9, x, y);
+          g.addColorStop(0, 'rgba(210,225,255,0)'); g.addColorStop(1, 'rgba(210,225,255,.22)');
+          ctx.globalAlpha = 1; ctx.strokeStyle = g; ctx.lineWidth = p.s * .8;
+          ctx.beginPath(); ctx.moveTo(x, y - p.v * .9); ctx.lineTo(x, y); ctx.stroke();
+          ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.arc(x, y + p.s * .3, p.s * 1.2, 0, 7); ctx.fill();
+          ctx.fillStyle = 'rgba(225,235,255,.55)'; ctx.beginPath(); ctx.arc(x - p.s * .3, y - p.s * .3, p.s * .6, 0, 7); ctx.fill();
+        });
+      } else if (name === 'minimal') {
+        ctx.fillStyle = '#ecefe8'; ctx.fillRect(0, 0, W, H);
+        const R = Math.max(W, H) * .75;
+        L.blobs.forEach(b => {
+          const x = W * (b.ax + .12 * Math.sin(t * b.sp + b.ph)), y = H * (b.ay + .12 * Math.cos(t * b.sp * 1.3 + b.ph));
+          ctx.drawImage(b.c, x - R, y - R, R * 2, R * 2);
+        });
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function build() {
+      W = Math.max(innerWidth, 320); H = Math.max(innerHeight, 320);
+      DPR = Math.min(devicePixelRatio || 1, name === 'minimal' ? 1 : 1.5);
+      cv.width = Math.ceil(W * DPR); cv.height = Math.ceil(H * DPR);
+      L = {}; parts = []; shoot = null;
+      builders[name]();
+      draw(performance.now());
+    }
+    function loop(now) {
+      requestAnimationFrame(loop);
+      if (reduce || now - last < 33) return;
+      last = now; draw(now);
+    }
+    let rt;
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 200); });
+    return {
+      set(n) { name = builders[n] ? n : 'forest'; document.body.dataset.scene = name; build(); },
+      start() { requestAnimationFrame(loop); },
+    };
+  })();
+
+  /* ---------- installable app: only on its own site, where the page links a manifest ---------- */
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && document.querySelector('link[rel="manifest"]')) {
+    navigator.serviceWorker.register('sw.js').then((reg) => {
+      const offer = (w) => {
+        $('updateBar').hidden = false;
+        $('btnUpdate').onclick = () => { $('btnUpdate').textContent = 'Обновляю…'; w.postMessage('skipWaiting'); };
+      };
+      if (reg.waiting && navigator.serviceWorker.controller) offer(reg.waiting);
+      reg.addEventListener('updatefound', () => {
+        const w = reg.installing;
+        if (w) w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) offer(w); });
+      });
+      setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+    }).catch(() => {});
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloading) { reloading = true; location.reload(); } });
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  }
+
+  /* ---------- boot ---------- */
+  setPhase('focus');
+  syncSettingsUI(); renderSceneCards(); renderTodo();
+  scene.set(S.scene); scene.start();
+  music.showNow();
+  renderStatic();
+})();
+</script>
