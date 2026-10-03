@@ -50,6 +50,15 @@
     --bg: #0b1026;
     --shadow: 0 18px 50px rgba(0, 0, 10, .5);
   }
+  body[data-scene="autumn"] {
+    --glass: rgba(74, 36, 18, .3);
+    --glass-strong: rgba(62, 32, 20, .86);
+    --accent: #ffc27a;
+    --accent-break: #c4e3c0;
+    --accent-ink: #2b1a0e;
+    --bg: #e2a879;
+    --shadow: 0 18px 50px rgba(60, 25, 10, .3);
+  }
   body[data-scene="sea"] {
     --glass: rgba(20, 52, 72, .3);
     --glass-strong: rgba(22, 48, 66, .84);
@@ -321,6 +330,7 @@
   .credits a { color: inherit; }
 
   .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .sw.autumn { background: radial-gradient(circle at 30% 62%, #e8742a 0 14px, transparent 15px), radial-gradient(circle at 72% 58%, #c94b2a 0 17px, transparent 18px), linear-gradient(#efc39a, #f8dfc0 55%, #c9874f 56%, #8a4a2a); }
   .sw.sea { background: linear-gradient(#9cc3dd, #f3d9c4 48%, #4f86a6 49%, #2e5f7c 78%, #e8d6b5 79%); }
   .sw.mountains { background: linear-gradient(160deg, transparent 40%, #6f86a0 41%, #3f5a5f 75%), linear-gradient(#8fb3d9, #dfe9f1); }
   .sw.winter { background: linear-gradient(#b9c8d6, #e6ecf1 55%, #2f4a45 56%, #f4f7fa 80%); }
@@ -404,6 +414,9 @@
       <button class="iconbtn glass" id="btnTasks" aria-label="Задачи на сегодня" title="Задачи">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5l1.6 1.6L8.5 5M4 12.5l1.6 1.6 2.9-3.1M4 18.5l1.6 1.6 2.9-3.1M12 7h8M12 13h8M12 19h8"/></svg>
       </button>
+      <button class="iconbtn glass" id="btnMini" aria-label="Мини-окно поверх других вкладок" title="Мини-окно" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="11" width="7" height="6" rx="1.2" fill="currentColor" stroke="none"/></svg>
+      </button>
       <button class="iconbtn glass" id="btnScene" aria-label="Сменить пейзаж" title="Пейзаж">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l6-9 4 6 3-4 5 7z"/><circle cx="17" cy="6" r="2"/></svg>
       </button>
@@ -480,6 +493,7 @@
     <div class="scenes" id="sceneList">
       <button class="scene-card" data-scene="forest"><div class="sw forest"></div><span>Лес на рассвете</span></button>
       <button class="scene-card" data-scene="lake"><div class="sw lake"></div><span>Озеро вечером</span></button>
+      <button class="scene-card" data-scene="autumn"><div class="sw autumn"></div><span>Уютная осень</span></button>
       <button class="scene-card" data-scene="sea"><div class="sw sea"></div><span>Морской берег</span></button>
       <button class="scene-card" data-scene="mountains"><div class="sw mountains"></div><span>Горы</span></button>
       <button class="scene-card" data-scene="winter"><div class="sw winter"></div><span>Зимний лес</span></button>
@@ -654,7 +668,9 @@
     knob.setAttribute('cx', 100 + 84 * Math.sin(a));
     knob.setAttribute('cy', 100 - 84 * Math.cos(a));
     document.title = T.running ? fmt(rem) + ' · ' + PHASE_LBL[T.phase] : 'Тихий час';
+    if (miniHook) miniHook();
   }
+  let miniHook = null;
 
   function renderStatic() {
     const paused = !T.running && T.remaining < T.total;
@@ -690,12 +706,24 @@
     $('todayText').textContent = txt;
   }
 
-  let tickId = null;
+  // A worker keeps ticking at full speed while the tab is in the background
+  // (plain intervals get slowed down there, which would freeze the mini window).
+  const ticker = (() => {
+    let w = null, fn = null, id = null;
+    try {
+      w = new Worker(URL.createObjectURL(new Blob(['let id;onmessage=e=>{clearInterval(id);if(e.data)id=setInterval(()=>postMessage(0),e.data)}'], { type: 'text/javascript' })));
+      w.onmessage = () => fn && fn();
+    } catch (e) { w = null; }
+    return {
+      start(f, ms) { fn = f; if (w) w.postMessage(ms); else { clearInterval(id); id = setInterval(f, ms); } },
+      stop() { fn = null; if (w) w.postMessage(0); clearInterval(id); },
+    };
+  })();
   function start() {
     unlockAudio();
     T.endAt = Date.now() + T.remaining;
     T.running = true;
-    clearInterval(tickId); tickId = setInterval(tick, 250);
+    ticker.start(tick, 250);
     keepAwake(true);
     if (S.musicWith && (T.phase === 'focus' || !S.breakPause)) music.play();
     renderStatic();
@@ -703,7 +731,7 @@
   function pause() {
     T.remaining = Math.max(0, T.endAt - Date.now());
     T.running = false;
-    clearInterval(tickId);
+    ticker.stop();
     keepAwake(false);
     if (S.musicWith) music.pause();
     renderStatic();
@@ -729,7 +757,7 @@
     }
   }
   function complete() {
-    clearInterval(tickId);
+    ticker.stop();
     T.running = false;
     const wasFocus = T.phase === 'focus';
     nextPhase(true);
@@ -756,7 +784,7 @@
   });
   $('btnSkip').addEventListener('click', () => {
     const was = T.running;
-    if (was) { clearInterval(tickId); T.running = false; }
+    if (was) { ticker.stop(); T.running = false; }
     nextPhase(false);
     if (T.phase !== 'focus' && S.breakPause) music.pause();
     if (was) start(); else { keepAwake(false); renderStatic(); }
@@ -987,15 +1015,17 @@
       if (!isRadio()) { tIdx = (tIdx + 1) % TRACKS.length; showNow(); }
       if (wanted) start();
     });
-    if ('mediaSession' in navigator) {
+    function bindSession() {
+      if (!('mediaSession' in navigator)) return;
       try {
         navigator.mediaSession.setActionHandler('play', () => play());
         navigator.mediaSession.setActionHandler('pause', () => pause());
         navigator.mediaSession.setActionHandler('nexttrack', () => next());
       } catch (e) {}
     }
+    bindSession();
     return {
-      play, pause, next, duck, showNow, pickStation, pickTrack, setSource,
+      play, pause, next, duck, showNow, pickStation, pickTrack, setSource, bindSession,
       toggle: () => wanted ? pause() : play(),
       setVol: () => { if (wanted && !el.paused) el.volume = vol(); },
     };
@@ -1247,6 +1277,46 @@
         parts = Array.from({ length: 70 }, () => ({ x: r() * W, y: r() * H * .7, s: .8 + r() * 1.4, p: r() * 6.28, f: .5 + r() * 1.5 }));
         L.flies = Array.from({ length: 16 }, () => ({ x: r() * W, y: H * (.8 + r() * .18), p: r() * 6.28 }));
       },
+      autumn() {
+        const r = rng(17);
+        const [sky, s] = layer();
+        let g = s.createLinearGradient(0, 0, 0, H * .75);
+        g.addColorStop(0, '#e6b08a'); g.addColorStop(.5, '#f4d2ad'); g.addColorStop(1, '#fbe6c8');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        g = s.createRadialGradient(W * .64, H * .42, 0, W * .64, H * .42, H * .55);
+        g.addColorStop(0, 'rgba(255,236,196,.95)'); g.addColorStop(.3, 'rgba(255,214,160,.4)'); g.addColorStop(1, 'rgba(255,214,160,0)');
+        s.fillStyle = g; s.fillRect(0, 0, W, H);
+        fillRidge(s, ridgeFn(r, H * .52, H * .05), '#dfae86');
+        // round deciduous crowns: a cluster of discs, lit from the upper left
+        const tree = (x, cx, base, h, crown, light, trunk) => {
+          x.fillStyle = trunk; x.fillRect(cx - h * .03, base - h * .55, h * .06, h * .57);
+          const cy = base - h * .68;
+          x.fillStyle = crown;
+          for (let i = 0; i < 8; i++) { const a = r() * 6.28, d = r() * h * .17; x.beginPath(); x.arc(cx + Math.cos(a) * d * 1.3, cy + Math.sin(a) * d * .8, h * (.15 + r() * .09), 0, 7); x.fill(); }
+          x.fillStyle = light;
+          for (let i = 0; i < 4; i++) { x.beginPath(); x.arc(cx - h * (.04 + r() * .1), cy - h * (.05 + r() * .08), h * (.06 + r() * .05), 0, 7); x.fill(); }
+        };
+        const specs = [
+          { base: .62, amp: .025, h: [.1, .15], c: '#d99566', l: 'rgba(255,214,160,.45)', g: '#d7a072', t: '#9a6a52', d: .5 },
+          { base: .72, amp: .03, h: [.15, .22], c: '#d2793f', l: 'rgba(255,190,110,.5)', g: '#c98a52', t: '#7a4a32', d: .55 },
+          { base: .85, amp: .035, h: [.22, .32], c: '#bb5a2e', l: 'rgba(240,150,70,.55)', g: '#b06a3a', t: '#5a3424', d: .6 },
+          { base: 1.0, amp: .03, h: [.34, .5], c: '#8f3f22', l: 'rgba(220,110,50,.5)', g: '#7a3f22', t: '#3e2418', d: .75 },
+        ];
+        L.rows = specs.map(sp => {
+          const [c, x] = layer(); const f = ridgeFn(r, H * sp.base, H * sp.amp);
+          let px = -40;
+          while (px < W + 40) {
+            const h = H * (sp.h[0] + r() * (sp.h[1] - sp.h[0]));
+            tree(x, px, f(px) + 2, h, sp.c, sp.l, sp.t);
+            px += Math.max(6, h * sp.d * (.6 + r()));
+          }
+          fillRidge(x, f, sp.g);
+          return { c, y: H * sp.base };
+        });
+        L.sky = sky; L.puff = blob('rgba(255,236,210,.6)', 256);
+        const cols = ['#e8742a', '#f2a03d', '#c94b2a', '#e9b949', '#b5562b', '#d8652f'];
+        parts = Array.from({ length: 38 }, () => ({ x: r() * W, y: r() * H, v: 18 + r() * 30, s: 5 + r() * 6, p: r() * 6.28, spin: .6 + r() * 1.4, drift: 6 + r() * 14, c: cols[Math.floor(r() * cols.length)] }));
+      },
       sea() {
         const r = rng(9), hy = H * .5, shore = H * .8;
         const [bg, b] = layer();
@@ -1422,6 +1492,27 @@
           ctx.globalAlpha = Math.max(0, Math.sin(t * .8 + f.p)) * .8;
           ctx.beginPath(); ctx.arc(f.x + Math.sin(t * .3 + f.p) * 30, f.y + Math.cos(t * .25 + f.p) * 12, 1.8, 0, 7); ctx.fill();
         });
+      } else if (name === 'autumn') {
+        ctx.drawImage(L.sky, 0, 0, W, H);
+        L.rows.forEach((row, i) => {
+          ctx.drawImage(row.c, 0, 0, W, H);
+          if (i < 2) {
+            const a = .14 + .06 * Math.sin(t * .15 + i);
+            const g = ctx.createLinearGradient(0, row.y - H * .06, 0, row.y + H * .05);
+            g.addColorStop(0, 'rgba(255,232,200,0)'); g.addColorStop(.6, `rgba(255,232,200,${a})`); g.addColorStop(1, 'rgba(255,232,200,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, row.y - H * .06, W, H * .11);
+          }
+        });
+        parts.forEach(p => {
+          const y = (p.y + t * p.v) % (H + 40) - 20;
+          const x = ((p.x + Math.sin(t * .5 + p.p) * 40 + t * p.drift) % (W + 40) + W + 40) % (W + 40) - 20;
+          ctx.save(); ctx.translate(x, y); ctx.rotate(t * p.spin + p.p);
+          ctx.scale(1, .3 + .7 * Math.abs(Math.sin(t * p.spin * .8 + p.p)));
+          ctx.globalAlpha = .9; ctx.fillStyle = p.c;
+          ctx.beginPath(); ctx.moveTo(-p.s, 0);
+          ctx.quadraticCurveTo(0, -p.s * .65, p.s, 0); ctx.quadraticCurveTo(0, p.s * .65, -p.s, 0); ctx.fill();
+          ctx.restore();
+        });
       } else if (name === 'sea') {
         const hy = L.hy;
         ctx.drawImage(L.bg, 0, 0, W, H);
@@ -1508,6 +1599,129 @@
       start() { requestAnimationFrame(loop); },
     };
   })();
+
+  /* ---------- mini window over other tabs and apps ---------- */
+  // Desktop Chrome gets a real little window with buttons (Document Picture-in-Picture);
+  // elsewhere (Android) the timer is drawn into a video that floats like a YouTube mini player.
+  const mini = (() => {
+    const cv = document.createElement('canvas'); cv.width = 360; cv.height = 360;
+    const c = cv.getContext('2d');
+    const hasDoc = 'documentPictureInPicture' in window;
+    const hasVideo = !!document.pictureInPictureEnabled;
+    let video = null, win = null, toggleBtn = null, open = false;
+
+    function draw() {
+      const W = cv.width, H = cv.height, cs = getComputedStyle(document.body);
+      const ring = cs.getPropertyValue('--ring').trim() || '#f6cf8e';
+      const sc = $('scene');
+      // the current landscape, cropped to a square, under a dark veil
+      const s = Math.min(sc.width, sc.height);
+      c.drawImage(sc, (sc.width - s) / 2, (sc.height - s) / 2, s, s, 0, 0, W, H);
+      c.fillStyle = 'rgba(10,14,12,.5)'; c.fillRect(0, 0, W, H);
+      const rem = T.running ? T.endAt - Date.now() : T.remaining;
+      const frac = Math.max(0, Math.min(1, rem / T.total));
+      const cx = W / 2, cy = H / 2, R = W * .4;
+      c.lineCap = 'round'; c.lineWidth = 10;
+      c.strokeStyle = 'rgba(255,255,255,.18)'; c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.stroke();
+      c.strokeStyle = ring; c.beginPath(); c.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + frac * Math.PI * 2); c.stroke();
+      c.fillStyle = ring; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.font = '600 17px Onest, "Segoe UI", Roboto, sans-serif';
+      const paused = !T.running && T.remaining < T.total;
+      c.fillText((paused ? 'НА ПАУЗЕ' : PHASE_LBL[T.phase].toUpperCase()), cx, cy - 62);
+      c.fillStyle = '#fffdf6';
+      c.font = '300 92px "Cormorant Garamond", Georgia, serif';
+      c.fillText(fmt(rem), cx, cy + 4);
+      const ct = curTask();
+      if (ct) {
+        c.font = '400 17px Onest, "Segoe UI", Roboto, sans-serif'; c.fillStyle = 'rgba(255,253,246,.8)';
+        const txt = ct.text.length > 26 ? ct.text.slice(0, 25) + '…' : ct.text;
+        c.fillText(txt, cx, cy + 66);
+      }
+    }
+
+    function update() {
+      if (!open) return;
+      draw();
+      if (toggleBtn) toggleBtn.textContent = T.running ? 'Пауза' : (T.remaining < T.total ? 'Продолжить' : 'Старт');
+      if (video && 'mediaSession' in navigator) {
+        try { navigator.mediaSession.playbackState = T.running ? 'playing' : 'paused'; } catch (e) {}
+      }
+    }
+
+    function timerSession() {
+      if (!('mediaSession' in navigator)) return;
+      try {
+        navigator.mediaSession.setActionHandler('play', () => { if (!T.running) start(); });
+        navigator.mediaSession.setActionHandler('pause', () => { if (T.running) pause(); });
+        navigator.mediaSession.setActionHandler('nexttrack', () => $('btnSkip').click());
+      } catch (e) {}
+    }
+
+    async function openDoc() {
+      win = await documentPictureInPicture.requestWindow({ width: 300, height: 360 });
+      const d = win.document;
+      d.title = 'Тихий час';
+      d.body.style.cssText = 'margin:0;background:#141a17;display:flex;flex-direction:column;height:100vh;overflow:hidden';
+      cv.style.cssText = 'flex:1;min-height:0;width:100%;object-fit:contain;display:block';
+      const bar = d.createElement('div');
+      bar.style.cssText = 'display:flex;gap:8px;padding:10px;background:#141a17';
+      const mk = (fn, primary) => {
+        const b = d.createElement('button');
+        b.style.cssText = 'flex:1;padding:10px 0;border:0;border-radius:999px;cursor:pointer;font:600 14px system-ui,sans-serif;' +
+          (primary ? 'background:#f6cf8e;color:#2a2418' : 'background:rgba(255,255,255,.12);color:#fffdf6');
+        b.onclick = fn; bar.append(b); return b;
+      };
+      toggleBtn = mk(() => toggle(), true);
+      mk(() => $('btnSkip').click(), false).textContent = 'Дальше';
+      d.body.append(cv, bar);
+      win.addEventListener('pagehide', close);
+    }
+
+    async function openVideo() {
+      if (!video) {
+        video = document.createElement('video');
+        video.muted = true; video.playsInline = true;
+        video.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;bottom:0;left:0';
+        document.body.append(video);
+        video.srcObject = cv.captureStream(4);
+        video.addEventListener('leavepictureinpicture', close);
+      }
+      draw();
+      await video.play();
+      await video.requestPictureInPicture();
+      timerSession();
+    }
+
+    async function toggleMini() {
+      if (open) { close(); return; }
+      open = true; draw();
+      try {
+        if (hasDoc) await openDoc(); else await openVideo();
+        update();
+        $('btnMini').setAttribute('aria-pressed', 'true');
+      } catch (e) {
+        open = false;
+        if (video) video.pause();
+        toast('Мини-окно здесь не открылось. Попробуй на своём сайте в Chrome');
+      }
+    }
+
+    function close() {
+      if (!open) return;
+      open = false; toggleBtn = null;
+      if (win) { try { win.close(); } catch (e) {} win = null; }
+      if (video && document.pictureInPictureElement === video) document.exitPictureInPicture().catch(() => {});
+      if (video) { video.pause(); music.bindSession(); }
+      $('btnMini').setAttribute('aria-pressed', 'false');
+    }
+
+    if (hasDoc || hasVideo) {
+      $('btnMini').hidden = false;
+      $('btnMini').addEventListener('click', toggleMini);
+    }
+    return { update };
+  })();
+  miniHook = mini.update;
 
   /* ---------- installable app: only on its own site, where the page links a manifest ---------- */
   if ('serviceWorker' in navigator && location.protocol === 'https:' && document.querySelector('link[rel="manifest"]')) {

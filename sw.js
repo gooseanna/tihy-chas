@@ -1,6 +1,6 @@
 // Keeps "Тихий час" working offline. The build script stamps VERSION on every release,
 // which is what makes installed copies notice an update.
-const VERSION = 'tihiy-chas-20260929-0821';
+const VERSION = 'tihiy-chas-20261003-0825';
 const FONTS = 'tihiy-chas-fonts';
 const CORE = [
   './',
